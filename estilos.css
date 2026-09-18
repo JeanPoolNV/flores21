@@ -871,3 +871,121 @@ body.arrastrando{
         font-size:28px;
     }
 }
+
+.galaxia-interactiva{
+    overflow:hidden;
+    overscroll-behavior:none;
+    touch-action:none;
+    user-select:none;
+    -webkit-user-select:none;
+}
+
+.flor-orbita,
+.palabra-flotante,
+.texto-corazon,
+.centro-visual,
+.texto-centro{
+    will-change:transform,opacity;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+}
+
+@media(max-width:700px){
+    .titulo-galaxia{
+        top:14px;
+        font-size:8px;
+        letter-spacing:3px;
+    }
+
+    .texto-corazon strong{
+        font-size:18px;
+    }
+
+    .texto-corazon span{
+        font-size:8px;
+    }
+
+    .centro-visual{
+        width:92px;
+        height:92px;
+    }
+
+    .texto-centro{
+        font-size:10px;
+        letter-spacing:2px;
+        white-space:nowrap;
+    }
+
+    .flor-contenedor{
+        width:48px;
+        height:48px;
+    }
+
+    .flor-imagen{
+        max-width:48px;
+        max-height:48px;
+        filter:drop-shadow(0 3px 3px rgba(0,0,0,.35));
+    }
+
+    .flor-emoji{
+        font-size:30px;
+        filter:none;
+    }
+
+    .flor-nombre{
+        max-width:76px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        font-size:7.5px;
+        letter-spacing:0;
+        text-shadow:0 1px 3px #000;
+    }
+
+    .palabra-flotante{
+        max-width:125px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        font-size:7.7px;
+        letter-spacing:0;
+        text-align:center;
+        text-shadow:
+            0 1px 3px rgba(0,0,0,.8),
+            0 0 6px rgba(255,215,0,.18);
+        filter:none!important;
+    }
+
+    .tarjeta-overlay{
+        padding:12px;
+    }
+
+    .tarjeta{
+        width:min(94vw,390px);
+        max-height:90dvh;
+    }
+
+    .tarjeta-visual{
+        height:min(48vw,205px);
+        min-height:160px;
+    }
+}
+
+@media(max-width:390px){
+    .flor-contenedor{
+        width:44px;
+        height:44px;
+    }
+
+    .flor-imagen{
+        max-width:44px;
+        max-height:44px;
+    }
+
+    .flor-emoji{
+        font-size:27px;
+    }
+
+    .palabra-flotante{
+        max-width:108px;
+        font-size:7px;
+    }
+}
