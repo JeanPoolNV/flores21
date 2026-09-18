@@ -11,19 +11,11 @@ html,body{
     overflow:hidden;
 }
 
-#espacio,
-.inicio,
-.experiencia,
-.galaxia-interactiva{
-    width:100vw;
-    height:100dvh;
-}
-
 body{
     font-family:"Segoe UI",Arial,sans-serif;
     color:#fff;
     background:
-        radial-gradient(circle at 50% 68%,rgba(255,210,0,.12),transparent 30%),
+        radial-gradient(circle at 50% 68%,rgba(255,210,0,.13),transparent 30%),
         radial-gradient(circle at 18% 15%,rgba(60,70,140,.14),transparent 32%),
         linear-gradient(180deg,#020208 0%,#05050d 45%,#090812 100%);
 }
@@ -32,11 +24,17 @@ button{
     font:inherit;
 }
 
+#espacio,
+.inicio,
+.experiencia,
+.galaxia-interactiva{
+    width:100vw;
+    height:100dvh;
+}
+
 #espacio{
     position:fixed;
     inset:0;
-    width:100%;
-    height:100%;
     z-index:1;
 }
 
@@ -270,63 +268,28 @@ button{
     justify-content:center;
     transform:translate(-50%,-50%);
     pointer-events:none;
-    z-index:16;
+    z-index:18;
     overflow:visible;
     will-change:transform;
 }
 
-.centro-visual::before{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:390px;
-    height:135px;
-    transform:translate(-50%,-50%) rotate(-5deg);
-    border:1px solid rgba(255,222,74,.2);
-    border-radius:50%;
-    box-shadow:
-        0 0 14px rgba(255,215,0,.12),
-        inset 0 0 18px rgba(255,215,0,.05);
-    z-index:0;
-}
-
+.centro-visual::before,
 .centro-visual::after{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:390px;
-    height:135px;
-    transform:translate(-50%,-50%) rotate(-5deg);
-    border:2px solid transparent;
-    border-bottom-color:rgba(255,230,105,.72);
-    border-radius:50%;
-    filter:drop-shadow(0 0 5px rgba(255,210,0,.55));
-    z-index:4;
-    opacity:.8;
+    display:none;
 }
 
 .centro-visual img{
     position:relative;
-    z-index:2;
+    z-index:3;
     display:none;
     max-width:100%;
     max-height:100%;
     object-fit:contain;
     filter:
-        drop-shadow(0 0 10px rgba(255,235,130,.7))
-        drop-shadow(0 0 25px rgba(255,200,0,.42))
-        drop-shadow(0 0 55px rgba(255,180,0,.18));
+        drop-shadow(0 0 14px rgba(255,240,150,.85))
+        drop-shadow(0 0 32px rgba(255,210,0,.6))
+        drop-shadow(0 0 75px rgba(255,180,0,.28));
     animation:respirarRamo 3.4s ease-in-out infinite;
-}
-
-.centro-visual span{
-    position:absolute;
-}
-
-.centro-visual::selection{
-    background:transparent;
 }
 
 .texto-centro{
@@ -342,7 +305,8 @@ button{
     will-change:transform;
 }
 
-.orbitas,.palabras{
+.orbitas,
+.palabras{
     position:absolute;
     inset:0;
     pointer-events:none;
@@ -462,10 +426,10 @@ button{
     top:0;
     white-space:nowrap;
     overflow:visible;
-    color:rgba(255,241,166,.72);
-    font-size:12px;
-    font-weight:500;
-    letter-spacing:.3px;
+    color:rgba(255,245,195,.92);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.2px;
     text-align:center;
     cursor:pointer;
     pointer-events:auto;
@@ -476,8 +440,9 @@ button{
     backface-visibility:hidden;
     -webkit-backface-visibility:hidden;
     text-shadow:
-        0 2px 5px rgba(0,0,0,.8),
-        0 0 8px rgba(255,215,0,.18);
+        0 2px 6px rgba(0,0,0,.92),
+        0 0 10px rgba(255,215,0,.34),
+        0 0 18px rgba(255,210,0,.18);
     transition:opacity 1s ease,color .25s;
 }
 
@@ -486,15 +451,7 @@ button{
 }
 
 .palabra-flotante:hover{
-    color:#fff6bd;
-}
-
-.palabra-flotante.visible{
-    opacity:1;
-}
-
-.palabra-flotante:hover{
-    color:#fff6bd;
+    color:#fff9d2;
 }
 
 .configuracion{
@@ -717,16 +674,16 @@ body.arrastrando{
     0%,100%{
         transform:scale(1);
         filter:
-            drop-shadow(0 0 10px rgba(255,235,130,.62))
-            drop-shadow(0 0 25px rgba(255,200,0,.35))
-            drop-shadow(0 0 55px rgba(255,180,0,.14));
+            drop-shadow(0 0 12px rgba(255,235,130,.68))
+            drop-shadow(0 0 28px rgba(255,205,0,.42))
+            drop-shadow(0 0 60px rgba(255,180,0,.18));
     }
     50%{
         transform:scale(1.045);
         filter:
-            drop-shadow(0 0 15px rgba(255,240,150,.85))
-            drop-shadow(0 0 34px rgba(255,205,0,.55))
-            drop-shadow(0 0 70px rgba(255,180,0,.25));
+            drop-shadow(0 0 18px rgba(255,240,150,.9))
+            drop-shadow(0 0 38px rgba(255,205,0,.58))
+            drop-shadow(0 0 80px rgba(255,180,0,.28));
     }
 }
 
@@ -746,20 +703,8 @@ body.arrastrando{
     }
 
     .centro-visual{
-        width:96px;
-        height:96px;
-    }
-
-    .centro-visual::before{
-        width:265px;
-        height:92px;
-        border-color:rgba(255,222,74,.17);
-    }
-
-    .centro-visual::after{
-        width:265px;
-        height:92px;
-        border-bottom-color:rgba(255,230,105,.62);
+        width:102px;
+        height:102px;
     }
 
     .texto-centro{
@@ -797,12 +742,14 @@ body.arrastrando{
         overflow:visible;
         text-overflow:clip;
         white-space:nowrap;
-        font-size:7.4px;
+        font-size:8.4px;
+        font-weight:600;
         letter-spacing:0;
         text-align:center;
         text-shadow:
-            0 1px 3px rgba(0,0,0,.85),
-            0 0 6px rgba(255,215,0,.17);
+            0 1px 4px rgba(0,0,0,.92),
+            0 0 8px rgba(255,215,0,.28),
+            0 0 14px rgba(255,210,0,.14);
     }
 
     .tarjeta-overlay{
@@ -830,10 +777,9 @@ body.arrastrando{
 }
 
 @media(max-width:390px){
-    .centro-visual::before,
-    .centro-visual::after{
-        width:235px;
-        height:82px;
+    .centro-visual{
+        width:96px;
+        height:96px;
     }
 
     .flor-contenedor{
@@ -852,6 +798,6 @@ body.arrastrando{
 
     .palabra-flotante{
         max-width:none;
-        font-size:6.8px;
+        font-size:7.6px;
     }
 }

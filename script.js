@@ -89,15 +89,8 @@ function ajustarCanvas(){
 
     const viewport=window.visualViewport;
 
-    ancho=Math.round(
-        viewport?.width||
-        window.innerWidth
-    );
-
-    alto=Math.round(
-        viewport?.height||
-        window.innerHeight
-    );
+    ancho=Math.round(viewport?.width||window.innerWidth);
+    alto=Math.round(viewport?.height||window.innerHeight);
 
     const dpr=movil?1:Math.min(devicePixelRatio||1,1.5);
 
@@ -111,8 +104,8 @@ function ajustarCanvas(){
     crearEscena();
 
     if(movil){
-        camara.zoom=limitar(camara.zoom,.68,1.55);
-        camara.panY=limitar(camara.panY,-95,95);
+        camara.zoom=limitar(camara.zoom,.65,1.55);
+        camara.panY=limitar(camara.panY,-100,100);
     }
 
     if(modoGalaxia){
@@ -140,11 +133,13 @@ class Estrella{
     actualizar(dt){
         this.y+=this.velocidad*dt*60;
         this.fase+=dt*.9;
+
         if(this.y>alto+10)this.reset();
     }
 
     dibujar(){
         const alpha=this.alpha*(.78+Math.sin(this.fase)*.22);
+
         ctx.beginPath();
         ctx.arc(this.x,this.y,this.radio,0,Math.PI*2);
         ctx.fillStyle=`rgba(255,255,235,${alpha})`;
@@ -161,9 +156,9 @@ class Luz{
     reset(){
         this.x=Math.random()*ancho;
         this.y=alto+15;
-        this.radio=Math.random()*1.5+.3;
-        this.velocidad=Math.random()*.16+.04;
-        this.alpha=Math.random()*.25+.05;
+        this.radio=Math.random()*1.7+.3;
+        this.velocidad=Math.random()*.18+.04;
+        this.alpha=Math.random()*.3+.06;
         this.fase=Math.random()*Math.PI*2;
     }
 
@@ -171,6 +166,7 @@ class Luz{
         this.y-=this.velocidad*dt*60;
         this.fase+=dt*.75;
         this.x+=Math.sin(this.fase)*.05*dt*60;
+
         if(this.y<-15)this.reset();
     }
 
@@ -191,34 +187,53 @@ class Petalo{
     reset(){
         this.x=Math.random()*ancho;
         this.y=-20;
-        this.tamano=Math.random()*4+3;
-        this.vy=Math.random()*.22+.08;
-        this.vx=Math.random()*.12-.06;
+        this.tamano=Math.random()*5+3;
+        this.vy=Math.random()*.25+.08;
+        this.vx=Math.random()*.14-.07;
         this.rotacion=Math.random()*Math.PI*2;
-        this.vr=Math.random()*.012-.006;
+        this.vr=Math.random()*.014-.007;
         this.fase=Math.random()*Math.PI*2;
-        this.alpha=Math.random()*.28+.16;
+        this.alpha=Math.random()*.35+.18;
     }
 
     actualizar(dt){
         const f=dt*60;
+
         this.y+=this.vy*f;
         this.x+=this.vx*f;
         this.fase+=dt*.7;
         this.x+=Math.sin(this.fase)*.08*f;
         this.rotacion+=this.vr*f;
+
         if(this.y>alto+30||this.x<-30||this.x>ancho+30)this.reset();
     }
 
     dibujar(){
         ctx.save();
+
         ctx.translate(this.x,this.y);
         ctx.rotate(this.rotacion);
 
         ctx.beginPath();
         ctx.moveTo(0,-this.tamano);
-        ctx.bezierCurveTo(this.tamano*.8,-this.tamano*.4,this.tamano*.65,this.tamano*.65,0,this.tamano);
-        ctx.bezierCurveTo(-this.tamano*.65,this.tamano*.65,-this.tamano*.8,-this.tamano*.4,0,-this.tamano);
+
+        ctx.bezierCurveTo(
+            this.tamano*.8,
+            -this.tamano*.4,
+            this.tamano*.65,
+            this.tamano*.65,
+            0,
+            this.tamano
+        );
+
+        ctx.bezierCurveTo(
+            -this.tamano*.65,
+            this.tamano*.65,
+            -this.tamano*.8,
+            -this.tamano*.4,
+            0,
+            -this.tamano
+        );
 
         ctx.fillStyle=`rgba(255,215,35,${this.alpha})`;
         ctx.fill();
@@ -229,13 +244,14 @@ class Petalo{
 
 class ParticulaGalaxia{
     constructor(){
-        const maxRadio=Math.min(ancho,alto)*(movil?.37:.44);
+        const maxRadio=Math.min(ancho,alto)*(movil?.39:.45);
+
         this.radio=Math.pow(Math.random(),.62)*maxRadio+5;
         this.brazo=Math.floor(Math.random()*3)*(Math.PI*2/3);
         this.angulo=this.radio*.045+this.brazo+(Math.random()-.5)*.55;
-        this.tamano=Math.random()*1.4+.22;
-        this.alpha=Math.random()*.58+.08;
-        this.desfase=(Math.random()-.5)*(movil?14:22);
+        this.tamano=Math.random()*1.5+.22;
+        this.alpha=Math.random()*.62+.08;
+        this.desfase=(Math.random()-.5)*(movil?16:24);
         this.color=Math.random()>.25?"#ffe35c":"#fff9cc";
     }
 
@@ -247,10 +263,12 @@ class ParticulaGalaxia{
         const y=cy+Math.sin(angulo)*radio*.31+this.desfase*camara.zoom;
 
         ctx.globalAlpha=this.alpha;
+
         ctx.beginPath();
         ctx.arc(x,y,this.tamano*camara.zoom,0,Math.PI*2);
         ctx.fillStyle=this.color;
         ctx.fill();
+
         ctx.globalAlpha=1;
     }
 }
@@ -259,7 +277,7 @@ class Explosion{
     constructor(x,y){
         this.particulas=[];
 
-        const cantidad=movil?12:20;
+        const cantidad=movil?14:22;
 
         for(let i=0;i<cantidad;i++){
             const angulo=Math.random()*Math.PI*2;
@@ -293,6 +311,7 @@ class Explosion{
     dibujar(){
         this.particulas.forEach(p=>{
             ctx.globalAlpha=p.vida;
+
             ctx.beginPath();
             ctx.arc(p.x,p.y,p.radio,0,Math.PI*2);
             ctx.fillStyle="#ffe563";
@@ -309,10 +328,10 @@ function crearEscena(){
     petalos=[];
     particulasGalaxia=[];
 
-    const totalEstrellas=movil?110:300;
-    const totalLuces=movil?25:60;
-    const totalPetalos=movil?15:35;
-    const totalGalaxia=movil?260:820;
+    const totalEstrellas=movil?150:340;
+    const totalLuces=movil?55:95;
+    const totalPetalos=movil?34:60;
+    const totalGalaxia=movil?320:900;
 
     for(let i=0;i<totalEstrellas;i++)estrellas.push(new Estrella());
     for(let i=0;i<totalLuces;i++)luces.push(new Luz());
@@ -378,6 +397,7 @@ function crearFlores(){
 
         if(flor.imagenFlor){
             const img=document.createElement("img");
+
             img.className="flor-imagen";
             img.src=flor.imagenFlor;
             img.alt=flor.altFlor;
@@ -417,60 +437,75 @@ function obtenerSlotsPalabras(total){
     const posiciones=[];
 
     if(movil){
-        const filas=Math.ceil(total/2);
+        const columnas=[.09,.50,.91];
+        let fila=0;
+        let columna=0;
 
-        for(let i=0;i<total;i++){
-            const fila=Math.floor(i/2);
-            const lado=i%2;
-            const progreso=filas<=1?.5:fila/(filas-1);
+        while(posiciones.length<total){
+            let x=columnas[columna];
+            let y=.04+fila*.058;
 
-            let x=lado===0?.11:.89;
-            let y=.045+progreso*.91;
+            const centroX=x>.25&&x<.75;
+            const zonaCorazon=y>.13&&y<.39&&centroX;
+            const zonaRamo=y>.43&&y<.76&&centroX;
 
-            if(fila%4===1){
-                x+=lado===0?.035:-.035;
+            if(!zonaCorazon&&!zonaRamo&&y<.97){
+                if(fila%2===1){
+                    if(columna===0)x+=.018;
+                    if(columna===2)x-=.018;
+                }
+
+                posiciones.push({
+                    x:limitar(x,.055,.945),
+                    y:limitar(y,.035,.97)
+                });
             }
 
-            if(fila%4===3){
-                x+=lado===0?-.025:.025;
+            columna++;
+
+            if(columna===columnas.length){
+                columna=0;
+                fila++;
             }
 
-            posiciones.push({
-                x:limitar(x,.07,.93),
-                y:limitar(y,.045,.955)
-            });
+            if(fila>50)break;
         }
 
         return posiciones;
     }
 
-    const columnas=5;
-    const filas=Math.ceil(total/columnas);
+    const columnas=[.055,.23,.39,.61,.77,.945];
+    let fila=0;
+    let columna=0;
 
-    for(let i=0;i<total;i++){
-        const fila=Math.floor(i/columnas);
-        const columna=i%columnas;
+    while(posiciones.length<total){
+        let x=columnas[columna];
+        let y=.045+fila*.09;
 
-        let x=.055+(columna/(columnas-1))*.89;
-        let y=.055+(fila/Math.max(filas-1,1))*.89;
+        const centroX=x>.28&&x<.72;
+        const zonaCorazon=y>.15&&y<.42&&centroX;
+        const zonaRamo=y>.43&&y<.75&&centroX;
 
-        if(fila%2===1){
-            x+=columna%2===0?.018:-.018;
+        if(!zonaCorazon&&!zonaRamo&&y<.97){
+            if(fila%2===1){
+                if(columna%2===0)x+=.01;
+                else x-=.01;
+            }
+
+            posiciones.push({
+                x:limitar(x,.04,.96),
+                y:limitar(y,.04,.97)
+            });
         }
 
-        if(
-            x>.34&&
-            x<.66&&
-            y>.25&&
-            y<.75
-        ){
-            x=i%2===0?.25:.75;
+        columna++;
+
+        if(columna===columnas.length){
+            columna=0;
+            fila++;
         }
 
-        posiciones.push({
-            x:limitar(x,.045,.955),
-            y:limitar(y,.045,.955)
-        });
+        if(fila>30)break;
     }
 
     return posiciones;
@@ -485,27 +520,29 @@ function crearPalabras(){
 
     datos.forEach((dato,i)=>{
         const elemento=document.createElement("span");
+        const posicion=posiciones[i]||{
+            x:.1+Math.random()*.8,
+            y:.05+Math.random()*.9
+        };
 
         elemento.className="palabra-flotante";
         elemento.textContent=dato.dataset.texto;
 
         palabras.appendChild(elemento);
 
-        const posicion=posiciones[i];
-
         setTimeout(()=>{
             elemento.classList.add("visible");
-        },250+i*35);
+        },220+i*28);
 
         palabrasUI.push({
             el:elemento,
             xNorm:posicion.x,
             yNorm:posicion.y,
-            ampX:movil?7+((i*11)%7):14+((i*13)%12),
-            ampY:movil?5+((i*7)%6):9+((i*11)%9),
-            velX:.18+((i%6)*.025),
-            velY:.16+((i%5)*.025),
-            fase:i*.77,
+            ampX:movil?6+((i*9)%6):12+((i*11)%10),
+            ampY:movil?4+((i*7)%5):8+((i*9)%7),
+            velX:.16+((i%6)*.02),
+            velY:.14+((i%5)*.02),
+            fase:i*.73,
             ancho:0,
             alto:0
         });
@@ -544,9 +581,9 @@ function rotacionTotal(){
 function actualizarFlores(centro,nucleoY){
     const rotacion=rotacionTotal();
 
-    const rx=(movil?Math.min(ancho*.31,118):Math.min(ancho*.18,195))*camara.zoom;
-    const ry=(movil?Math.min(alto*.065,48):Math.min(alto*.085,72))*camara.zoom;
-    const centroAroY=nucleoY+(movil?6:8);
+    const rx=(movil?Math.min(ancho*.34,128):Math.min(ancho*.21,230))*camara.zoom;
+    const ry=(movil?Math.min(alto*.078,52):Math.min(alto*.095,86))*camara.zoom;
+    const centroAroY=nucleoY+(movil?8:10);
 
     floresUI.forEach(flor=>{
         const angulo=flor.base+rotacion;
@@ -554,8 +591,8 @@ function actualizarFlores(centro,nucleoY){
         const delante=Math.sin(angulo)>=0;
 
         const escala=movil
-            ?.68+profundidad*.32
-            :.72+profundidad*.38;
+            ?.68+profundidad*.30
+            :.74+profundidad*.35;
 
         let x=centro.x+Math.cos(angulo)*rx;
         let y=centroAroY+Math.sin(angulo)*ry;
@@ -564,11 +601,11 @@ function actualizarFlores(centro,nucleoY){
 
         if(movil){
             x=limitar(x,34,ancho-34);
-            y=limitar(y,130,alto-120);
+            y=limitar(y,138,alto-128);
         }
 
         flor.el.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%) scale(${escala})`;
-        flor.el.style.opacity=.55+profundidad*.43;
+        flor.el.style.opacity=.62+profundidad*.32;
 
         if(delante){
             flor.el.classList.add("frente");
@@ -577,7 +614,7 @@ function actualizarFlores(centro,nucleoY){
         }else{
             flor.el.classList.add("atras");
             flor.el.classList.remove("frente");
-            flor.el.style.zIndex=String(8+Math.round(profundidad*5));
+            flor.el.style.zIndex=String(8+Math.round(profundidad*4));
         }
     });
 }
@@ -590,29 +627,19 @@ function actualizarPalabras(){
         let x=ancho*item.xNorm+movimientoX;
         let y=alto*item.yNorm+movimientoY;
 
-        const escala=.94+Math.sin(tiempo*.3+item.fase)*.035;
+        const escala=.96+Math.sin(tiempo*.3+item.fase)*.035;
 
         const mitadAncho=Math.max((item.ancho||70)*escala/2,20);
         const mitadAlto=Math.max((item.alto||12)*escala/2,6);
 
-        x=limitar(
-            x,
-            mitadAncho+5,
-            ancho-mitadAncho-5
-        );
+        x=limitar(x,mitadAncho+5,ancho-mitadAncho-5);
+        y=limitar(y,mitadAlto+5,alto-mitadAlto-5);
 
-        y=limitar(
-            y,
-            mitadAlto+5,
-            alto-mitadAlto-5
-        );
-
-        item.el.style.transform=
-            `translate3d(${x}px,${y}px,0) translate(-50%,-50%) scale(${escala})`;
+        item.el.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%) scale(${escala})`;
 
         item.el.style.opacity=
-            .4+
-            .25*
+            .62+
+            .28*
             (.5+.5*Math.sin(tiempo*.42+item.fase));
     });
 }
@@ -621,8 +648,16 @@ function actualizarDOM(){
     if(!modoGalaxia)return;
 
     const centro=centroEscena();
-    const corazonY=centro.y-(movil?145:182)*camara.zoom;
-    const nucleoY=centro.y+(movil?82:92)*camara.zoom;
+
+    const corazonY=
+        centro.y-
+        (movil?145:182)*
+        camara.zoom;
+
+    const nucleoY=
+        centro.y+
+        (movil?82:92)*
+        camara.zoom;
 
     textoCorazon.style.left=`${centro.x}px`;
     textoCorazon.style.top=`${corazonY}px`;
@@ -640,10 +675,18 @@ function actualizarDOM(){
 
 function dibujarGalaxia(){
     const centro=centroEscena();
-    const nucleoY=centro.y+(movil?82:92)*camara.zoom;
+
+    const nucleoY=
+        centro.y+
+        (movil?82:92)*
+        camara.zoom;
+
     const rotacion=rotacionTotal();
 
-    const radioLuz=Math.max(ancho,alto)*(movil?.18:.25)*camara.zoom;
+    const radioLuz=
+        Math.max(ancho,alto)*
+        (movil?.20:.26)*
+        camara.zoom;
 
     const g=ctx.createRadialGradient(
         centro.x,
@@ -654,44 +697,37 @@ function dibujarGalaxia(){
         radioLuz
     );
 
-    g.addColorStop(0,"rgba(255,235,120,.17)");
-    g.addColorStop(.3,"rgba(255,210,0,.06)");
+    g.addColorStop(0,"rgba(255,235,120,.18)");
+    g.addColorStop(.3,"rgba(255,210,0,.07)");
     g.addColorStop(1,"rgba(0,0,0,0)");
 
     ctx.fillStyle=g;
     ctx.fillRect(0,0,ancho,alto);
 
     particulasGalaxia.forEach(particula=>{
-        particula.dibujar(centro.x,nucleoY,rotacion);
+        particula.dibujar(
+            centro.x,
+            nucleoY,
+            rotacion
+        );
     });
-
-    ctx.beginPath();
-
-    const limite=movil?13*Math.PI:20*Math.PI;
-    const paso=movil?.28:.18;
-
-    for(let t=0;t<limite;t+=paso){
-        const radio=t*.9*camara.zoom;
-        const angulo=t+rotacion;
-
-        const x=centro.x+Math.cos(angulo)*radio*.82;
-        const y=nucleoY+Math.sin(angulo)*radio*.29;
-
-        if(t===0)ctx.moveTo(x,y);
-        else ctx.lineTo(x,y);
-    }
-
-    ctx.strokeStyle="rgba(255,245,175,.48)";
-    ctx.lineWidth=movil?1:1.2;
-    ctx.stroke();
 }
 
 function dibujarCorazon(){
     const centro=centroEscena();
-    const cx=centro.x;
-    const cy=centro.y-(movil?145:182)*camara.zoom;
 
-    const escala=Math.min(ancho,alto)*(movil?.0094:.011)*camara.zoom*(1+Math.sin(tiempo*2)*.014);
+    const cx=centro.x;
+
+    const cy=
+        centro.y-
+        (movil?145:182)*
+        camara.zoom;
+
+    const escala=
+        Math.min(ancho,alto)*
+        (movil?.0094:.011)*
+        camara.zoom*
+        (1+Math.sin(tiempo*2)*.014);
 
     ctx.beginPath();
 
@@ -701,7 +737,12 @@ function dibujarCorazon(){
         const t=i/pasos*Math.PI*2;
 
         const x=16*Math.pow(Math.sin(t),3);
-        const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);
+
+        const y=
+            13*Math.cos(t)-
+            5*Math.cos(2*t)-
+            2*Math.cos(3*t)-
+            Math.cos(4*t);
 
         const px=cx+x*escala;
         const py=cy-y*escala;
@@ -711,11 +752,14 @@ function dibujarCorazon(){
     }
 
     ctx.closePath();
+
     ctx.strokeStyle="#ffe85e";
     ctx.lineWidth=movil?1.6:2;
     ctx.shadowBlur=movil?7:11;
     ctx.shadowColor="#ffd900";
+
     ctx.stroke();
+
     ctx.shadowBlur=0;
 }
 
@@ -724,11 +768,15 @@ function mostrarEscena(escena){
         e.classList.remove("activa");
     });
 
-    if(escena)escena.classList.add("activa");
+    if(escena){
+        escena.classList.add("activa");
+    }
 }
 
 function iniciarMusicaSuave(){
-    if(fadeMusica)cancelAnimationFrame(fadeMusica);
+    if(fadeMusica){
+        cancelAnimationFrame(fadeMusica);
+    }
 
     musicaFondo.volume=0;
 
@@ -760,7 +808,9 @@ function iniciarExperiencia(){
     if(experienciaIniciada)return;
 
     experienciaIniciada=true;
+
     iniciarMusicaSuave();
+
     inicio.classList.add("oculto");
 
     setTimeout(()=>{
@@ -791,7 +841,10 @@ function entrarGalaxia(){
     crearPalabras();
     prepararCentro();
 
-    crearExplosion(ancho/2,alto/2);
+    crearExplosion(
+        ancho/2,
+        alto/2
+    );
 }
 
 function abrirTarjeta(data){
@@ -800,6 +853,7 @@ function abrirTarjeta(data){
 
     tarjetaImagen.style.display="none";
     tarjetaEmoji.style.display="none";
+
     tarjetaImagen.removeAttribute("src");
 
     if(data.imagenTarjeta){
@@ -830,7 +884,10 @@ function cerrarTarjetaFn(){
 
 function crearExplosion(x,y){
     if(!modoGalaxia)return;
-    explosiones.push(new Explosion(x,y));
+
+    explosiones.push(
+        new Explosion(x,y)
+    );
 }
 
 function animar(ahora){
@@ -873,138 +930,117 @@ function animar(ahora){
         e.dibujar();
     });
 
-    explosiones=explosiones.filter(e=>e.particulas.length);
+    explosiones=
+        explosiones.filter(
+            e=>e.particulas.length
+        );
 
     requestAnimationFrame(animar);
 }
 
-btnComenzar.addEventListener("click",iniciarExperiencia);
+btnComenzar.addEventListener(
+    "click",
+    iniciarExperiencia
+);
 
-cerrarTarjeta.addEventListener("click",cerrarTarjetaFn);
+cerrarTarjeta.addEventListener(
+    "click",
+    cerrarTarjetaFn
+);
 
-tarjetaOverlay.addEventListener("click",e=>{
-    if(e.target===tarjetaOverlay)cerrarTarjetaFn();
-});
-
-galaxiaInteractiva.addEventListener("mousedown",e=>{
-    if(movil||!modoGalaxia)return;
-    if(e.target.closest(".flor-orbita,.palabra-flotante,.tarjeta"))return;
-
-    arrastrandoMouse=true;
-    mouseInicioX=e.clientX;
-    mouseInicioY=e.clientY;
-    mouseRotacionInicio=camara.rotacion;
-    mousePanInicio=camara.panY;
-
-    document.body.classList.add("arrastrando");
-});
-
-window.addEventListener("mousemove",e=>{
-    if(!arrastrandoMouse)return;
-
-    const dx=e.clientX-mouseInicioX;
-    const dy=e.clientY-mouseInicioY;
-
-    camara.rotacion=mouseRotacionInicio+dx*.006;
-    camara.panY=limitar(mousePanInicio+dy*.28,-160,160);
-});
-
-window.addEventListener("mouseup",()=>{
-    arrastrandoMouse=false;
-    document.body.classList.remove("arrastrando");
-});
-
-galaxiaInteractiva.addEventListener("touchstart",e=>{
-    if(!modoGalaxia)return;
-
-    if(e.touches.length>=2){
-        const t1=e.touches[0];
-        const t2=e.touches[1];
-        const mid=midpointTouches(t1,t2);
-
-        touchMode="pinch";
-        pinchStartDistance=distanciaTouches(t1,t2);
-        pinchStartZoom=camara.zoom;
-        pinchStartMidY=mid.y;
-        pinchStartPan=camara.panY;
-
-        e.preventDefault();
-        return;
+tarjetaOverlay.addEventListener(
+    "click",
+    e=>{
+        if(e.target===tarjetaOverlay){
+            cerrarTarjetaFn();
+        }
     }
+);
 
-    if(e.target.closest(".flor-orbita,.palabra-flotante,.tarjeta"))return;
+galaxiaInteractiva.addEventListener(
+    "mousedown",
+    e=>{
+        if(movil||!modoGalaxia)return;
 
-    const t=e.touches[0];
+        if(
+            e.target.closest(
+                ".flor-orbita,.palabra-flotante,.tarjeta"
+            )
+        )return;
 
-    touchMode="drag";
-    touchStartX=t.clientX;
-    touchStartY=t.clientY;
-    touchRotStart=camara.rotacion;
-    touchPanStart=camara.panY;
-},{passive:false});
+        arrastrandoMouse=true;
 
-galaxiaInteractiva.addEventListener("touchmove",e=>{
-    if(!modoGalaxia)return;
+        mouseInicioX=e.clientX;
+        mouseInicioY=e.clientY;
+        mouseRotacionInicio=camara.rotacion;
+        mousePanInicio=camara.panY;
 
-    if(e.touches.length>=2){
-        const t1=e.touches[0];
-        const t2=e.touches[1];
-        const mid=midpointTouches(t1,t2);
-        const dist=distanciaTouches(t1,t2);
+        document.body
+            .classList
+            .add("arrastrando");
+    }
+);
 
-        if(touchMode!=="pinch"){
+window.addEventListener(
+    "mousemove",
+    e=>{
+        if(!arrastrandoMouse)return;
+
+        const dx=e.clientX-mouseInicioX;
+        const dy=e.clientY-mouseInicioY;
+
+        camara.rotacion=
+            mouseRotacionInicio+
+            dx*.006;
+
+        camara.panY=
+            limitar(
+                mousePanInicio+
+                dy*.28,
+                -160,
+                160
+            );
+    }
+);
+
+window.addEventListener(
+    "mouseup",
+    ()=>{
+        arrastrandoMouse=false;
+
+        document.body
+            .classList
+            .remove("arrastrando");
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "touchstart",
+    e=>{
+        if(!modoGalaxia)return;
+
+        if(e.touches.length>=2){
+            const t1=e.touches[0];
+            const t2=e.touches[1];
+            const mid=midpointTouches(t1,t2);
+
             touchMode="pinch";
-            pinchStartDistance=dist;
+            pinchStartDistance=distanciaTouches(t1,t2);
             pinchStartZoom=camara.zoom;
             pinchStartMidY=mid.y;
             pinchStartPan=camara.panY;
+
+            e.preventDefault();
+
+            return;
         }
 
-        camara.zoom=limitar(
-            pinchStartZoom*(dist/pinchStartDistance),
-            .65,
-            1.55
-        );
+        if(
+            e.target.closest(
+                ".flor-orbita,.palabra-flotante,.tarjeta"
+            )
+        )return;
 
-        camara.panY=limitar(
-            pinchStartPan+(mid.y-pinchStartMidY)*.14,
-            -100,
-            100
-        );
-
-        e.preventDefault();
-        return;
-    }
-
-    if(touchMode==="drag"&&e.touches.length===1){
-        const t=e.touches[0];
-
-        const dx=t.clientX-touchStartX;
-        const dy=t.clientY-touchStartY;
-
-        camara.rotacion=touchRotStart+dx*.009;
-        camara.panY=limitar(touchPanStart+dy*.18,-95,95);
-
-        e.preventDefault();
-    }
-},{passive:false});
-
-galaxiaInteractiva.addEventListener("touchend",e=>{
-    if(e.touches.length>=2){
-        const t1=e.touches[0];
-        const t2=e.touches[1];
-        const mid=midpointTouches(t1,t2);
-
-        touchMode="pinch";
-        pinchStartDistance=distanciaTouches(t1,t2);
-        pinchStartZoom=camara.zoom;
-        pinchStartMidY=mid.y;
-        pinchStartPan=camara.panY;
-
-        return;
-    }
-
-    if(e.touches.length===1){
         const t=e.touches[0];
 
         touchMode="drag";
@@ -1012,42 +1048,183 @@ galaxiaInteractiva.addEventListener("touchend",e=>{
         touchStartY=t.clientY;
         touchRotStart=camara.rotacion;
         touchPanStart=camara.panY;
-
-        return;
+    },
+    {
+        passive:false
     }
+);
 
-    touchMode="";
-});
+galaxiaInteractiva.addEventListener(
+    "touchmove",
+    e=>{
+        if(!modoGalaxia)return;
 
-galaxiaInteractiva.addEventListener("touchcancel",()=>{
-    touchMode="";
-});
+        if(e.touches.length>=2){
+            const t1=e.touches[0];
+            const t2=e.touches[1];
 
-window.addEventListener("wheel",e=>{
-    if(!modoGalaxia||movil)return;
+            const mid=midpointTouches(t1,t2);
+            const dist=distanciaTouches(t1,t2);
 
-    e.preventDefault();
+            if(touchMode!=="pinch"){
+                touchMode="pinch";
+                pinchStartDistance=dist;
+                pinchStartZoom=camara.zoom;
+                pinchStartMidY=mid.y;
+                pinchStartPan=camara.panY;
+            }
 
-    camara.zoom=limitar(
-        camara.zoom-e.deltaY*.0007,
-        .55,
-        1.8
-    );
-},{passive:false});
+            camara.zoom=
+                limitar(
+                    pinchStartZoom*
+                    (dist/pinchStartDistance),
+                    .65,
+                    1.55
+                );
 
-galaxiaInteractiva.addEventListener("click",e=>{
-    if(!modoGalaxia)return;
-    if(e.target.closest(".flor-orbita,.palabra-flotante,.tarjeta"))return;
+            camara.panY=
+                limitar(
+                    pinchStartPan+
+                    (mid.y-pinchStartMidY)*.14,
+                    -100,
+                    100
+                );
 
-    crearExplosion(e.clientX,e.clientY);
-});
+            e.preventDefault();
 
-window.addEventListener("keydown",e=>{
-    if(e.key==="Escape")cerrarTarjetaFn();
-});
+            return;
+        }
 
-window.addEventListener("resize",ajustarCanvas);
-window.visualViewport?.addEventListener("resize",ajustarCanvas);
+        if(
+            touchMode==="drag"&&
+            e.touches.length===1
+        ){
+            const t=e.touches[0];
+
+            const dx=
+                t.clientX-
+                touchStartX;
+
+            const dy=
+                t.clientY-
+                touchStartY;
+
+            camara.rotacion=
+                touchRotStart+
+                dx*.009;
+
+            camara.panY=
+                limitar(
+                    touchPanStart+
+                    dy*.18,
+                    -95,
+                    95
+                );
+
+            e.preventDefault();
+        }
+    },
+    {
+        passive:false
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "touchend",
+    e=>{
+        if(e.touches.length>=2){
+            const t1=e.touches[0];
+            const t2=e.touches[1];
+            const mid=midpointTouches(t1,t2);
+
+            touchMode="pinch";
+            pinchStartDistance=distanciaTouches(t1,t2);
+            pinchStartZoom=camara.zoom;
+            pinchStartMidY=mid.y;
+            pinchStartPan=camara.panY;
+
+            return;
+        }
+
+        if(e.touches.length===1){
+            const t=e.touches[0];
+
+            touchMode="drag";
+            touchStartX=t.clientX;
+            touchStartY=t.clientY;
+            touchRotStart=camara.rotacion;
+            touchPanStart=camara.panY;
+
+            return;
+        }
+
+        touchMode="";
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "touchcancel",
+    ()=>{
+        touchMode="";
+    }
+);
+
+window.addEventListener(
+    "wheel",
+    e=>{
+        if(!modoGalaxia||movil)return;
+
+        e.preventDefault();
+
+        camara.zoom=
+            limitar(
+                camara.zoom-
+                e.deltaY*.0007,
+                .55,
+                1.8
+            );
+    },
+    {
+        passive:false
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "click",
+    e=>{
+        if(!modoGalaxia)return;
+
+        if(
+            e.target.closest(
+                ".flor-orbita,.palabra-flotante,.tarjeta"
+            )
+        )return;
+
+        crearExplosion(
+            e.clientX,
+            e.clientY
+        );
+    }
+);
+
+window.addEventListener(
+    "keydown",
+    e=>{
+        if(e.key==="Escape"){
+            cerrarTarjetaFn();
+        }
+    }
+);
+
+window.addEventListener(
+    "resize",
+    ajustarCanvas
+);
+
+window.visualViewport?.addEventListener(
+    "resize",
+    ajustarCanvas
+);
 
 detectarMovil();
 ajustarCanvas();
