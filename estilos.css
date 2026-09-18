@@ -190,7 +190,6 @@ button{
     animation:flotar 3s ease-in-out infinite;
     filter:drop-shadow(0 0 20px rgba(255,210,0,.4));
 }
-
 .entrada-3d{
     position:fixed;
     inset:0;
@@ -388,7 +387,6 @@ button{
     z-index:24;
     pointer-events:none;
 }
-
 .centro-visual{
     position:absolute;
     width:145px;
@@ -669,62 +667,125 @@ button{
 body.arrastrando{
     cursor:grabbing;
 }
-
 @keyframes entradaInicio{
-    from{opacity:0;transform:translateY(15px)}
-    to{opacity:1;transform:translateY(0)}
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 @keyframes abrirTarjeta{
-    from{opacity:0;transform:translateY(20px) scale(.95)}
-    to{opacity:1;transform:translateY(0) scale(1)}
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.95);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
 }
 
 @keyframes zoomFoto{
-    from{transform:scale(1)}
-    to{transform:scale(1.07)}
+    from{
+        transform:scale(1);
+    }
+    to{
+        transform:scale(1.07);
+    }
 }
 
 @keyframes latido{
-    0%,100%{transform:scale(1)}
-    50%{transform:scale(1.14)}
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.14);
+    }
 }
 
 @keyframes flotar{
-    0%,100%{transform:translateY(0) rotate(-3deg)}
-    50%{transform:translateY(-13px) rotate(3deg)}
+    0%,100%{
+        transform:translateY(0) rotate(-3deg);
+    }
+    50%{
+        transform:translateY(-13px) rotate(3deg);
+    }
 }
 
 @keyframes respirarTunel{
-    0%,100%{transform:translate(-50%,-50%) scale(.9);opacity:.75}
-    50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}
+    0%,100%{
+        transform:translate(-50%,-50%) scale(.9);
+        opacity:.75;
+    }
+    50%{
+        transform:translate(-50%,-50%) scale(1.08);
+        opacity:1;
+    }
 }
 
 @keyframes mensajeFinal3d{
-    0%{opacity:0;transform:translate(-50%,-50%) scale(.45)}
-    30%{opacity:1;transform:translate(-50%,-50%) scale(1)}
-    72%{opacity:1;transform:translate(-50%,-50%) scale(1.04)}
-    100%{opacity:0;transform:translate(-50%,-50%) scale(1.25)}
+    0%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(.45);
+    }
+    30%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1);
+    }
+    72%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.04);
+    }
+    100%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(1.25);
+    }
 }
 
 @keyframes respirarRamo{
-    0%,100%{transform:scale(1)}
-    50%{transform:scale(1.045)}
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.045);
+    }
 }
 
 @keyframes haloSol{
-    0%,100%{transform:scale(1);opacity:.9}
-    50%{transform:scale(1.12);opacity:.7}
+    0%,100%{
+        transform:scale(1);
+        opacity:.9;
+    }
+    50%{
+        transform:scale(1.12);
+        opacity:.7;
+    }
 }
 
 @keyframes explosionCentro{
-    0%,100%{transform:scale(1);opacity:.8}
-    50%{transform:scale(1.4);opacity:1}
+    0%,100%{
+        transform:scale(1);
+        opacity:.8;
+    }
+    50%{
+        transform:scale(1.4);
+        opacity:1;
+    }
 }
 
 @keyframes destello{
-    0%,100%{opacity:.35;transform:scale(.8) rotate(0)}
-    50%{opacity:1;transform:scale(1.25) rotate(90deg)}
+    0%,100%{
+        opacity:.35;
+        transform:scale(.8) rotate(0);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.25) rotate(90deg);
+    }
 }
 
 @media(max-width:700px){
@@ -784,7 +845,10 @@ body.arrastrando{
     }
 
     .item-3d.frase{
-        text-shadow:0 0 6px rgba(255,230,120,.55),0 0 12px rgba(255,190,0,.2),0 3px 7px #000;
+        text-shadow:
+            0 0 6px rgba(255,230,120,.55),
+            0 0 12px rgba(255,190,0,.2),
+            0 3px 7px #000;
     }
 }
 
