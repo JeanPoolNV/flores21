@@ -87,8 +87,17 @@ function midpointTouches(t1,t2){
 function ajustarCanvas(){
     detectarMovil();
 
-    ancho=innerWidth;
-    alto=innerHeight;
+    const viewport=window.visualViewport;
+
+    ancho=Math.round(
+        viewport?.width||
+        window.innerWidth
+    );
+
+    alto=Math.round(
+        viewport?.height||
+        window.innerHeight
+    );
 
     const dpr=movil?1:Math.min(devicePixelRatio||1,1.5);
 
@@ -404,29 +413,67 @@ function crearFlores(){
     });
 }
 
-function obtenerSlotsPalabras(){
+function obtenerSlotsPalabras(total){
+    const posiciones=[];
+
     if(movil){
-        return[
-            {x:.18,y:.08},{x:.50,y:.07},{x:.82,y:.09},
-            {x:.13,y:.18},{x:.86,y:.19},
-            {x:.16,y:.29},{x:.84,y:.30},
-            {x:.12,y:.41},{x:.88,y:.42},
-            {x:.12,y:.55},{x:.88,y:.55},
-            {x:.14,y:.68},{x:.86,y:.68},
-            {x:.18,y:.79},{x:.50,y:.78},{x:.82,y:.80},
-            {x:.16,y:.89},{x:.50,y:.90},{x:.84,y:.90},
-            {x:.24,y:.96},{x:.72,y:.96}
-        ];
+        const filas=Math.ceil(total/2);
+
+        for(let i=0;i<total;i++){
+            const fila=Math.floor(i/2);
+            const lado=i%2;
+            const progreso=filas<=1?.5:fila/(filas-1);
+
+            let x=lado===0?.11:.89;
+            let y=.045+progreso*.91;
+
+            if(fila%4===1){
+                x+=lado===0?.035:-.035;
+            }
+
+            if(fila%4===3){
+                x+=lado===0?-.025:.025;
+            }
+
+            posiciones.push({
+                x:limitar(x,.07,.93),
+                y:limitar(y,.045,.955)
+            });
+        }
+
+        return posiciones;
     }
 
-    return[
-        {x:.10,y:.10},{x:.28,y:.08},{x:.50,y:.07},{x:.72,y:.09},{x:.90,y:.10},
-        {x:.10,y:.23},{x:.28,y:.22},{x:.72,y:.22},{x:.90,y:.24},
-        {x:.08,y:.38},{x:.26,y:.36},{x:.74,y:.36},{x:.92,y:.39},
-        {x:.08,y:.54},{x:.26,y:.55},{x:.74,y:.54},{x:.92,y:.55},
-        {x:.10,y:.70},{x:.28,y:.72},{x:.72,y:.71},{x:.90,y:.70},
-        {x:.12,y:.86},{x:.34,y:.88},{x:.50,y:.90},{x:.68,y:.87},{x:.88,y:.86}
-    ];
+    const columnas=5;
+    const filas=Math.ceil(total/columnas);
+
+    for(let i=0;i<total;i++){
+        const fila=Math.floor(i/columnas);
+        const columna=i%columnas;
+
+        let x=.055+(columna/(columnas-1))*.89;
+        let y=.055+(fila/Math.max(filas-1,1))*.89;
+
+        if(fila%2===1){
+            x+=columna%2===0?.018:-.018;
+        }
+
+        if(
+            x>.34&&
+            x<.66&&
+            y>.25&&
+            y<.75
+        ){
+            x=i%2===0?.25:.75;
+        }
+
+        posiciones.push({
+            x:limitar(x,.045,.955),
+            y:limitar(y,.045,.955)
+        });
+    }
+
+    return posiciones;
 }
 
 function crearPalabras(){
@@ -434,31 +481,33 @@ function crearPalabras(){
     palabrasUI=[];
 
     const datos=[...document.querySelectorAll(".dato-palabra")];
-    const slots=obtenerSlotsPalabras();
+    const posiciones=obtenerSlotsPalabras(datos.length);
 
     datos.forEach((dato,i)=>{
         const elemento=document.createElement("span");
+
         elemento.className="palabra-flotante";
         elemento.textContent=dato.dataset.texto;
+
         palabras.appendChild(elemento);
 
-        const slot=slots[i%slots.length];
-        const vuelta=Math.floor(i/slots.length);
+        const posicion=posiciones[i];
 
         setTimeout(()=>{
             elemento.classList.add("visible");
-        },350+i*45);
+        },250+i*35);
 
         palabrasUI.push({
             el:elemento,
-            xNorm:limitar(slot.x+(vuelta%2===0?-.018:.018)*vuelta,.06,.94),
-            yNorm:limitar(slot.y+.012*vuelta,.06,.96),
-            ampX:movil?7+((i*13)%6):14+((i*13)%10),
-            ampY:movil?5+((i*11)%5):9+((i*11)%8),
-            velX:.22+((i%5)*.035),
-            velY:.18+((i%4)*.04),
-            fase:i*.82,
-            ancho:0
+            xNorm:posicion.x,
+            yNorm:posicion.y,
+            ampX:movil?7+((i*11)%7):14+((i*13)%12),
+            ampY:movil?5+((i*7)%6):9+((i*11)%9),
+            velX:.18+((i%6)*.025),
+            velY:.16+((i%5)*.025),
+            fase:i*.77,
+            ancho:0,
+            alto:0
         });
 
         elemento.addEventListener("click",e=>{
@@ -476,6 +525,7 @@ function crearPalabras(){
     requestAnimationFrame(()=>{
         palabrasUI.forEach(item=>{
             item.ancho=item.el.offsetWidth;
+            item.alto=item.el.offsetHeight;
         });
     });
 }
@@ -534,19 +584,36 @@ function actualizarFlores(centro,nucleoY){
 
 function actualizarPalabras(){
     palabrasUI.forEach(item=>{
-        let x=ancho*item.xNorm+Math.sin(tiempo*item.velX+item.fase)*item.ampX;
-        let y=alto*item.yNorm+Math.cos(tiempo*item.velY+item.fase)*item.ampY;
+        const movimientoX=Math.sin(tiempo*item.velX+item.fase)*item.ampX;
+        const movimientoY=Math.cos(tiempo*item.velY+item.fase)*item.ampY;
 
-        const escala=.92+Math.sin(tiempo*.3+item.fase)*.035;
+        let x=ancho*item.xNorm+movimientoX;
+        let y=alto*item.yNorm+movimientoY;
 
-        if(movil){
-            const margen=Math.min((item.ancho||80)*escala/2,56);
-            x=limitar(x,margen+8,ancho-margen-8);
-            y=limitar(y,24,alto-24);
-        }
+        const escala=.94+Math.sin(tiempo*.3+item.fase)*.035;
 
-        item.el.style.transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%) scale(${escala})`;
-        item.el.style.opacity=.35+.2*(.5+.5*Math.sin(tiempo*.42+item.fase));
+        const mitadAncho=Math.max((item.ancho||70)*escala/2,20);
+        const mitadAlto=Math.max((item.alto||12)*escala/2,6);
+
+        x=limitar(
+            x,
+            mitadAncho+5,
+            ancho-mitadAncho-5
+        );
+
+        y=limitar(
+            y,
+            mitadAlto+5,
+            alto-mitadAlto-5
+        );
+
+        item.el.style.transform=
+            `translate3d(${x}px,${y}px,0) translate(-50%,-50%) scale(${escala})`;
+
+        item.el.style.opacity=
+            .4+
+            .25*
+            (.5+.5*Math.sin(tiempo*.42+item.fase));
     });
 }
 
@@ -980,6 +1047,7 @@ window.addEventListener("keydown",e=>{
 });
 
 window.addEventListener("resize",ajustarCanvas);
+window.visualViewport?.addEventListener("resize",ajustarCanvas);
 
 detectarMovil();
 ajustarCanvas();
