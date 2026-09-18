@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>21 de septiembre 💛</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<canvas id="espacio"></canvas>
+
+<div class="brillo brillo-1"></div>
+<div class="brillo brillo-2"></div>
+
+<section id="inicio" class="inicio">
+    <div class="inicio-contenido">
+        <span class="mini-corazon">💛</span>
+        <p>Tengo algo para ti...</p>
+        <h1>Un pequeño detalle</h1>
+        <button id="btnComenzar">Descubrir ✨</button>
+    </div>
+</section>
+
+<div id="experiencia" class="experiencia">
+
+    <section id="escenaFecha" class="escena">
+        <p class="texto-pequeno">Hay días que merecen ser especiales...</p>
+        <h2 class="numero-21">21</h2>
+        <p class="septiembre">de septiembre</p>
+        <span class="corazon-fecha">💛</span>
+    </section>
+
+    <section id="escenaMensaje" class="escena">
+        <p class="texto-pequeno">Y hoy quería recordarte algo...</p>
+        <h2 class="mensaje-principal">
+            También mereces
+            <span>flores amarillas</span>
+        </h2>
+        <div class="flor-presentacion">🌻</div>
+    </section>
+
+</div>
+
+<section id="galaxiaInteractiva" class="galaxia-interactiva">
+
+
+    <div id="textoCorazon" class="texto-corazon">
+        <strong>Te amo</strong>
+        <span>más de lo que imaginas</span>
+    </div>
+
+    <div id="centroVisual" class="centro-visual">
+        <img id="imagenCentroVisible" src="img/centro.png" alt="Flores amarillas">
+    </div>
+
+    <div id="orbitas" class="orbitas"></div>
+    <div id="palabras" class="palabras"></div>
+
+    <div id="textoCentro" class="texto-centro">
+        Siempre juntos ✨
+    </div>
+
+</section>
+
+<div id="configuracion" class="configuracion">
+
+    <div class="dato-flor"
+         data-titulo="Te amo"
+         data-etiqueta="Te amo"
+         data-emoji="🌻"
+         data-frase="Si hoy te regalo flores amarillas, también quiero regalarte un pedacito de mi corazón.">
+        <img class="imagen-flor" src="img/flor1.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto1.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <div class="dato-flor"
+         data-titulo="Eres mi sol"
+         data-etiqueta="Eres mi sol"
+         data-emoji="🌼"
+         data-frase="Tienes esa forma tan bonita de iluminar mis días, incluso cuando todo parece nublado.">
+        <img class="imagen-flor" src="img/flor2.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto2.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <div class="dato-flor"
+         data-titulo="Mi amor"
+         data-etiqueta="Mi amor"
+         data-emoji="🌻"
+         data-frase="Entre tantas estrellas, siempre elegiría coincidir contigo una y otra vez.">
+        <img class="imagen-flor" src="img/flor3.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto3.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <div class="dato-flor"
+         data-titulo="Eres única"
+         data-etiqueta="Eres única"
+         data-emoji="🌷"
+         data-frase="No hay otra persona que haga sentir tan bonito mi mundo como tú lo haces.">
+        <img class="imagen-flor" src="img/flor4.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto4.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <div class="dato-flor"
+         data-titulo="Mi todo"
+         data-etiqueta="Mi todo"
+         data-emoji="🌼"
+         data-frase="Gracias por existir y por convertir incluso los momentos más simples en recuerdos especiales.">
+        <img class="imagen-flor" src="img/flor5.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto5.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <div class="dato-flor"
+         data-titulo="Siempre tú"
+         data-etiqueta="Siempre tú"
+         data-emoji="🌻"
+         data-frase="Hoy, mañana y cada vez que vea flores amarillas, pensaré en ti.">
+        <img class="imagen-flor" src="img/flor6.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto6.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <div class="dato-flor"
+         data-titulo="Mi lugar favorito"
+         data-etiqueta="Contigo"
+         data-emoji="🌻"
+         data-frase="No importa dónde estemos. Si estoy contigo, siento que estoy en el lugar correcto.">
+        <img class="imagen-flor" src="img/flor7.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto7.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <div class="dato-flor"
+         data-titulo="Para ti"
+         data-etiqueta="Para ti"
+         data-emoji="🌼"
+         data-frase="Estas flores son digitales, pero todo lo que quiero decirte con ellas es completamente real.">
+        <img class="imagen-flor" src="img/flor8.png" alt="Flor amarilla">
+        <img class="imagen-tarjeta" src="img/foto8.jpg" alt="Nuestra fotografía">
+    </div>
+
+    <span class="dato-palabra" data-texto="Eres mi sol 🌻" data-angulo="190" data-radio="1.15" data-velocidad=".35"></span>
+    <span class="dato-palabra" data-texto="Mi persona favorita 💛" data-angulo="335" data-radio="1.15" data-velocidad=".28"></span>
+    <span class="dato-palabra" data-texto="Siempre tú ✨" data-angulo="122" data-radio=".92" data-velocidad="-.30"></span>
+    <span class="dato-palabra" data-texto="Eres increíble" data-angulo="30" data-radio=".92" data-velocidad=".38"></span>
+    <span class="dato-palabra" data-texto="Mi lugar favorito eres tú" data-angulo="230" data-radio=".85" data-velocidad="-.32"></span>
+    <span class="dato-palabra" data-texto="Te elegiría una y mil veces" data-angulo="305" data-radio=".82" data-velocidad=".34"></span>
+    <span class="dato-palabra" data-texto="Gracias por existir 💛" data-angulo="155" data-radio=".75" data-velocidad=".24"></span>
+    <span class="dato-palabra" data-texto="Mi bonita casualidad ✨" data-angulo="60" data-radio=".77" data-velocidad="-.22"></span>
+    <span class="dato-palabra" data-texto="Qué bonito fue encontrarte" data-angulo="210" data-radio="1.25" data-velocidad="-.20"></span>
+    <span class="dato-palabra" data-texto="Mi sonrisa favorita" data-angulo="145" data-radio="1.38" data-velocidad=".16"></span>
+    <span class="dato-palabra" data-texto="Te quiero muchísimo" data-angulo="48" data-radio="1.43" data-velocidad="-.14"></span>
+    <span class="dato-palabra" data-texto="Contigo todo se siente diferente" data-angulo="175" data-radio="1.50" data-velocidad="-.12"></span>
+    <span class="dato-palabra" data-texto="Quiero muchos 21 contigo 💛" data-angulo="355" data-radio="1.56" data-velocidad=".14"></span>
+    <span class="dato-palabra" data-texto="Tú haces bonito mis días" data-angulo="286" data-radio="1.60" data-velocidad=".15"></span>
+    <span class="dato-palabra" data-texto="Te pienso más de lo que imaginas" data-angulo="82" data-radio="1.64" data-velocidad="-.13"></span>
+    <span class="dato-palabra" data-texto="Mi pedacito favorito del universo" data-angulo="130" data-radio="1.67" data-velocidad=".11"></span>
+    <span class="dato-palabra" data-texto="A tu lado 💛" data-angulo="222" data-radio="1.72" data-velocidad="-.10"></span>
+    <span class="dato-palabra" data-texto="🌻 Para ti 🌻" data-angulo="278" data-radio="1.75" data-velocidad=".22"></span>
+    <span class="dato-palabra" data-texto="Mi paz ✨" data-angulo="18" data-radio="1.80" data-velocidad=".18"></span>
+    <span class="dato-palabra" data-texto="Coincidir contigo fue precioso" data-angulo="105" data-radio="1.83" data-velocidad="-.11"></span>
+    <span class="dato-palabra" data-texto="Eres una de mis mejores casualidades" data-angulo="255" data-radio="1.88" data-velocidad=".13"></span>
+    <span class="dato-palabra" data-texto="Donde estés tú, quiero estar yo" data-angulo="75" data-radio="1.92" data-velocidad="-.10"></span>
+
+</div>
+
+<div id="tarjetaOverlay" class="tarjeta-overlay">
+
+    <article class="tarjeta">
+
+        <button id="cerrarTarjeta" class="cerrar-tarjeta">×</button>
+
+        <div class="tarjeta-visual">
+            <img id="tarjetaImagen" src="" alt="Fotografía">
+            <div id="tarjetaEmoji" class="emoji-grande">💛</div>
+        </div>
+
+        <p class="tarjeta-superior">Para ti 💛</p>
+        <h3 id="tarjetaTitulo"></h3>
+        <p id="tarjetaFrase"></p>
+        <div class="tarjeta-corazon">💛</div>
+
+    </article>
+
+</div>
+
+<audio id="musicaFondo" loop preload="auto">
+    <source src="audio/musica.mp3" type="audio/mpeg">
+</audio>
+
+<script src="script.js"></script>
+
+</body>
+</html>
