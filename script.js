@@ -126,7 +126,6 @@ function ajustarCanvas(){
         prepararCentro();
     }
 }
-
 class Estrella{
     constructor(){
         this.reset();
@@ -358,7 +357,6 @@ function crearEscena(){
     for(let i=0;i<totalGalaxia;i++)particulasGalaxia.push(new ParticulaGalaxia());
     for(let i=0;i<totalChispas;i++)chispasCorazon.push(new ChispaCorazon());
 }
-
 function obtenerFlores(){
     return [...document.querySelectorAll(".dato-flor")].map(elemento=>{
         const flor=elemento.querySelector(".imagen-flor");
@@ -477,7 +475,9 @@ function crearEntrada3d(){
         const altura=70+Math.random()*180;
 
         rayo.style.height=`${altura}px`;
-        rayo.style.transform=`translate(${Math.cos(angulo*Math.PI/180)*distancia}px,${Math.sin(angulo*Math.PI/180)*distancia}px) rotate(${angulo+90}deg)`;
+
+        rayo.style.transform=
+            `translate(${Math.cos(angulo*Math.PI/180)*distancia}px,${Math.sin(angulo*Math.PI/180)*distancia}px) rotate(${angulo+90}deg)`;
 
         mundo3d.appendChild(rayo);
     }
@@ -501,7 +501,9 @@ function actualizarEntrada3d(dt){
             ?.65+profundidad*.8
             :.7+profundidad*.55;
 
-        const alpha=limitar((obj.z+5200)/900,0,1)*limitar((650-obj.z)/700,0,1);
+        const alpha=
+            limitar((obj.z+5200)/900,0,1)*
+            limitar((650-obj.z)/700,0,1);
 
         obj.el.style.opacity=alpha;
 
@@ -532,7 +534,6 @@ function iniciarEntrada3d(){
         objetos3d=[];
     },10300);
 }
-
 function crearFlores(){
     orbitas.innerHTML="";
     floresUI=[];
@@ -657,7 +658,16 @@ function dibujarEspiral(centro){
     for(let i=0;i<=pasos;i++){
         const p=i/pasos;
         const a=p*vueltas*Math.PI*2+rotacion;
-        const radio=(12+p*(movil?Math.min(ancho*.44,190):Math.min(ancho*.34,570)))*camara.zoom;
+
+        const radio=(
+            12+
+            p*
+            (
+                movil
+                    ?Math.min(ancho*.44,190)
+                    :Math.min(ancho*.34,570)
+            )
+        )*camara.zoom;
 
         const x=centro.x+Math.cos(a)*radio;
         const y=centro.y+Math.sin(a)*radio*(movil?.31:.27);
@@ -677,7 +687,16 @@ function dibujarEspiral(centro){
     for(let i=0;i<=pasos;i+=2){
         const p=i/pasos;
         const a=p*vueltas*Math.PI*2+rotacion;
-        const radio=(12+p*(movil?Math.min(ancho*.44,190):Math.min(ancho*.34,570)))*camara.zoom;
+
+        const radio=(
+            12+
+            p*
+            (
+                movil
+                    ?Math.min(ancho*.44,190)
+                    :Math.min(ancho*.34,570)
+            )
+        )*camara.zoom;
 
         const x=centro.x+Math.cos(a)*radio;
         const y=centro.y+Math.sin(a)*radio*(movil?.31:.27);
@@ -703,22 +722,39 @@ function actualizarFlores(centro){
         const radio=(
             (movil?48:65)+
             progreso*
-            (movil?Math.min(ancho*.37,150):Math.min(ancho*.29,470))
+            (
+                movil
+                    ?Math.min(ancho*.37,150)
+                    :Math.min(ancho*.29,470)
+            )
         )*camara.zoom;
 
-        const angulo=flor.base+rotacion*(.82+progreso*.18);
+        const angulo=
+            flor.base+
+            rotacion*
+            (.82+progreso*.18);
 
-        const profundidad=(Math.sin(angulo)+1)/2;
-        const delante=Math.sin(angulo)>=0;
+        const profundidad=
+            (Math.sin(angulo)+1)/2;
 
-        const x=centro.x+Math.cos(angulo)*radio;
+        const delante=
+            Math.sin(angulo)>=0;
+
+        const x=
+            centro.x+
+            Math.cos(angulo)*
+            radio;
 
         const y=
             centro.y+
             Math.sin(angulo)*
             radio*
             (movil?.32:.28)+
-            Math.sin(tiempo*1.2+flor.fase)*1.5;
+            Math.sin(
+                tiempo*1.2+
+                flor.fase
+            )*
+            1.5;
 
         const escala=
             (movil?.64:.7)+
@@ -734,11 +770,19 @@ function actualizarFlores(centro){
         if(delante){
             flor.el.classList.add("frente");
             flor.el.classList.remove("atras");
-            flor.el.style.zIndex=String(32+Math.round(profundidad*8));
+            flor.el.style.zIndex=
+                String(
+                    32+
+                    Math.round(profundidad*8)
+                );
         }else{
             flor.el.classList.add("atras");
             flor.el.classList.remove("frente");
-            flor.el.style.zIndex=String(18+Math.round(profundidad*4));
+            flor.el.style.zIndex=
+                String(
+                    18+
+                    Math.round(profundidad*4)
+                );
         }
     });
 }
@@ -758,4 +802,702 @@ function actualizarDOM(){
     centroVisual.style.transform=
         `translate3d(-50%,-50%,0) scale(${camara.zoom})`;
 
-    textoCentro.style.left=`${ce
+    textoCentro.style.left=`${centro.x}px`;
+
+    textoCentro.style.top=
+        `${centro.y+(movil?104:120)*camara.zoom}px`;
+
+    actualizarFlores(centro);
+}
+function dibujarGalaxia(){
+    const centro=ramoPosicion();
+    const rotacion=rotacionTotal();
+
+    const radioLuz=
+        Math.max(ancho,alto)*
+        (movil?.23:.28)*
+        camara.zoom;
+
+    const g=ctx.createRadialGradient(
+        centro.x,
+        centro.y,
+        0,
+        centro.x,
+        centro.y,
+        radioLuz
+    );
+
+    g.addColorStop(0,"rgba(255,238,140,.24)");
+    g.addColorStop(.24,"rgba(255,210,0,.1)");
+    g.addColorStop(1,"rgba(0,0,0,0)");
+
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,ancho,alto);
+
+    particulasGalaxia.forEach(particula=>{
+        particula.dibujar(
+            centro.x,
+            centro.y,
+            rotacion
+        );
+    });
+
+    dibujarEspiral(centro);
+}
+
+function dibujarCorazon(){
+    const centro=corazonPosicion();
+
+    const cx=centro.x;
+    const cy=centro.y;
+
+    const escala=
+        Math.min(ancho,alto)*
+        (movil?.0085:.0098)*
+        (
+            1+
+            Math.sin(tiempo*2)*
+            .02
+        );
+
+    ctx.save();
+
+    const pasos=movil?110:150;
+
+    ctx.beginPath();
+
+    for(let i=0;i<=pasos;i++){
+        const t=i/pasos*Math.PI*2;
+
+        const x=16*Math.pow(Math.sin(t),3);
+
+        const y=
+            13*Math.cos(t)-
+            5*Math.cos(2*t)-
+            2*Math.cos(3*t)-
+            Math.cos(4*t);
+
+        const px=cx+x*escala;
+        const py=cy-y*escala;
+
+        if(i===0)ctx.moveTo(px,py);
+        else ctx.lineTo(px,py);
+    }
+
+    ctx.closePath();
+
+    ctx.strokeStyle="rgba(255,231,96,.97)";
+    ctx.lineWidth=movil?1.8:2.3;
+    ctx.shadowBlur=13;
+    ctx.shadowColor="#ffd700";
+    ctx.stroke();
+
+    ctx.beginPath();
+
+    for(let i=0;i<=pasos;i++){
+        const t=i/pasos*Math.PI*2;
+
+        const x=16*Math.pow(Math.sin(t),3);
+
+        const y=
+            13*Math.cos(t)-
+            5*Math.cos(2*t)-
+            2*Math.cos(3*t)-
+            Math.cos(4*t);
+
+        const px=cx+x*escala*.93;
+        const py=cy-y*escala*.93;
+
+        if(i===0)ctx.moveTo(px,py);
+        else ctx.lineTo(px,py);
+    }
+
+    ctx.closePath();
+
+    ctx.strokeStyle="rgba(255,248,195,.45)";
+    ctx.lineWidth=1;
+    ctx.shadowBlur=20;
+    ctx.stroke();
+
+    chispasCorazon.forEach(chispa=>{
+        chispa.dibujar(cx,cy,tiempo);
+    });
+
+    ctx.restore();
+}
+
+function mostrarEscena(escena){
+    document.querySelectorAll(".escena").forEach(e=>{
+        e.classList.remove("activa");
+    });
+
+    if(escena){
+        escena.classList.add("activa");
+    }
+}
+
+function iniciarMusicaSuave(){
+    if(fadeMusica){
+        cancelAnimationFrame(fadeMusica);
+    }
+
+    musicaFondo.volume=0;
+
+    const volumenFinal=.35;
+    const duracion=4000;
+
+    musicaFondo.play().then(()=>{
+        const inicioFade=performance.now();
+
+        function subirVolumen(ahora){
+            const progreso=
+                Math.min(
+                    (ahora-inicioFade)/
+                    duracion,
+                    1
+                );
+
+            const suave=
+                1-
+                Math.pow(
+                    1-progreso,
+                    3
+                );
+
+            musicaFondo.volume=
+                volumenFinal*
+                suave;
+
+            if(progreso<1){
+                fadeMusica=
+                    requestAnimationFrame(
+                        subirVolumen
+                    );
+            }else{
+                musicaFondo.volume=
+                    volumenFinal;
+
+                fadeMusica=null;
+            }
+        }
+
+        fadeMusica=
+            requestAnimationFrame(
+                subirVolumen
+            );
+    }).catch(()=>{});
+}
+
+function iniciarExperiencia(){
+    if(experienciaIniciada)return;
+
+    experienciaIniciada=true;
+
+    iniciarMusicaSuave();
+
+    inicio.classList.add("oculto");
+
+    setTimeout(()=>{
+        mostrarEscena(escenaFecha);
+    },700);
+
+    setTimeout(()=>{
+        mostrarEscena(escenaMensaje);
+    },4100);
+
+    setTimeout(()=>{
+        mostrarEscena(null);
+        iniciarEntrada3d();
+    },7600);
+}
+
+function entrarGalaxia(){
+    modoGalaxia=true;
+
+    if(movil){
+        camara.zoom=.94;
+    }
+
+    galaxiaInteractiva.classList.add("activa");
+
+    crearFlores();
+    prepararCentro();
+
+    const centro=ramoPosicion();
+
+    crearExplosion(
+        centro.x,
+        centro.y
+    );
+}
+function abrirTarjeta(data){
+    tarjetaTitulo.textContent=data.titulo;
+    tarjetaFrase.textContent=data.frase;
+
+    tarjetaImagen.style.display="none";
+    tarjetaEmoji.style.display="none";
+    tarjetaImagen.removeAttribute("src");
+
+    if(data.imagenTarjeta){
+        tarjetaImagen.src=data.imagenTarjeta;
+        tarjetaImagen.alt=data.altTarjeta;
+
+        tarjetaImagen.onload=()=>{
+            tarjetaImagen.style.display="block";
+            tarjetaEmoji.style.display="none";
+        };
+
+        tarjetaImagen.onerror=()=>{
+            tarjetaImagen.style.display="none";
+            tarjetaEmoji.style.display="block";
+            tarjetaEmoji.textContent="💛";
+        };
+    }else{
+        tarjetaEmoji.style.display="block";
+        tarjetaEmoji.textContent="💛";
+    }
+
+    tarjetaOverlay.classList.add("activa");
+}
+
+function abrirTarjetaCentral(){
+    tarjetaTitulo.textContent="Nuestro pequeño universo";
+
+    tarjetaFrase.textContent=
+        "Si todo esto fuera un universo, tú serías ese punto de luz alrededor del cual nacen todos estos pequeños detalles.";
+
+    tarjetaImagen.style.display="none";
+    tarjetaEmoji.style.display="none";
+    tarjetaImagen.removeAttribute("src");
+
+    const src=
+        imagenCentroVisible
+            .getAttribute("src")
+            ?.trim();
+
+    if(src){
+        tarjetaImagen.src=src;
+        tarjetaImagen.alt="Ramo principal";
+
+        tarjetaImagen.onload=()=>{
+            tarjetaImagen.style.display="block";
+        };
+
+        tarjetaImagen.onerror=()=>{
+            tarjetaEmoji.style.display="block";
+            tarjetaEmoji.textContent="💛";
+        };
+    }else{
+        tarjetaEmoji.style.display="block";
+        tarjetaEmoji.textContent="💛";
+    }
+
+    tarjetaOverlay.classList.add("activa");
+}
+
+function activarCentroEspecial(){
+    const centro=ramoPosicion();
+
+    centroVisual.classList.remove("activa-especial");
+
+    void centroVisual.offsetWidth;
+
+    centroVisual.classList.add("activa-especial");
+
+    crearExplosion(
+        centro.x,
+        centro.y
+    );
+
+    setTimeout(()=>{
+        crearExplosion(
+            centro.x-38,
+            centro.y-12
+        );
+    },80);
+
+    setTimeout(()=>{
+        crearExplosion(
+            centro.x+40,
+            centro.y+10
+        );
+    },160);
+
+    setTimeout(()=>{
+        crearExplosion(
+            centro.x,
+            centro.y-40
+        );
+    },240);
+
+    setTimeout(()=>{
+        abrirTarjetaCentral();
+    },320);
+
+    setTimeout(()=>{
+        centroVisual.classList.remove("activa-especial");
+    },1800);
+}
+
+function cerrarTarjetaFn(){
+    tarjetaOverlay.classList.remove("activa");
+}
+
+function crearExplosion(x,y){
+    if(!modoGalaxia)return;
+
+    explosiones.push(
+        new Explosion(
+            x,
+            y
+        )
+    );
+}
+
+function animar(ahora){
+    const dt=
+        Math.min(
+            (ahora-ultimoFrame)/1000,
+            .033
+        );
+
+    ultimoFrame=ahora;
+    tiempo+=dt;
+
+    if(
+        modoGalaxia&&
+        touchMode===""&&
+        !arrastrandoMouse
+    ){
+        orbitaAutomatica+=
+            dt*
+            (movil?.07:.09);
+    }
+
+    ctx.clearRect(
+        0,
+        0,
+        ancho,
+        alto
+    );
+
+    dibujarNebulosas();
+
+    estrellas.forEach(e=>{
+        e.actualizar(dt);
+        e.dibujar();
+    });
+
+    if(experienciaIniciada){
+        luces.forEach(l=>{
+            l.actualizar(dt);
+            l.dibujar();
+        });
+
+        petalos.forEach(p=>{
+            p.actualizar(dt);
+            p.dibujar();
+        });
+    }
+
+    actualizarEntrada3d(dt);
+
+    if(modoGalaxia){
+        dibujarGalaxia();
+        dibujarCorazon();
+        actualizarDOM();
+    }
+
+    explosiones.forEach(e=>{
+        e.actualizar(dt);
+        e.dibujar();
+    });
+
+    explosiones=
+        explosiones.filter(
+            e=>e.particulas.length
+        );
+
+    requestAnimationFrame(animar);
+}
+
+btnComenzar.addEventListener(
+    "click",
+    iniciarExperiencia
+);
+
+cerrarTarjeta.addEventListener(
+    "click",
+    cerrarTarjetaFn
+);
+
+tarjetaOverlay.addEventListener(
+    "click",
+    e=>{
+        if(e.target===tarjetaOverlay){
+            cerrarTarjetaFn();
+        }
+    }
+);
+
+centroVisual.addEventListener(
+    "click",
+    e=>{
+        e.stopPropagation();
+
+        if(!modoGalaxia)return;
+
+        activarCentroEspecial();
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "mousedown",
+    e=>{
+        if(movil||!modoGalaxia)return;
+
+        if(
+            e.target.closest(
+                ".flor-orbita,.tarjeta,#centroVisual"
+            )
+        )return;
+
+        arrastrandoMouse=true;
+        mouseInicioX=e.clientX;
+        mouseRotacionInicio=camara.rotacion;
+
+        document.body.classList.add(
+            "arrastrando"
+        );
+    }
+);
+
+window.addEventListener(
+    "mousemove",
+    e=>{
+        if(!arrastrandoMouse)return;
+
+        const dx=
+            e.clientX-
+            mouseInicioX;
+
+        camara.rotacion=
+            mouseRotacionInicio+
+            dx*.0075;
+    }
+);
+
+window.addEventListener(
+    "mouseup",
+    ()=>{
+        arrastrandoMouse=false;
+
+        document.body.classList.remove(
+            "arrastrando"
+        );
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "touchstart",
+    e=>{
+        if(!modoGalaxia)return;
+
+        if(e.touches.length>=2){
+            const t1=e.touches[0];
+            const t2=e.touches[1];
+
+            touchMode="pinch";
+
+            pinchStartDistance=
+                distanciaTouches(
+                    t1,
+                    t2
+                );
+
+            pinchStartZoom=
+                camara.zoom;
+
+            e.preventDefault();
+
+            return;
+        }
+
+        if(
+            e.target.closest(
+                ".flor-orbita,.tarjeta,#centroVisual"
+            )
+        )return;
+
+        const t=e.touches[0];
+
+        touchMode="drag";
+        touchStartX=t.clientX;
+        touchRotStart=camara.rotacion;
+    },
+    {
+        passive:false
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "touchmove",
+    e=>{
+        if(!modoGalaxia)return;
+
+        if(e.touches.length>=2){
+            const t1=e.touches[0];
+            const t2=e.touches[1];
+
+            const dist=
+                distanciaTouches(
+                    t1,
+                    t2
+                );
+
+            if(touchMode!=="pinch"){
+                touchMode="pinch";
+                pinchStartDistance=dist;
+                pinchStartZoom=camara.zoom;
+            }
+
+            camara.zoom=
+                limitar(
+                    pinchStartZoom*
+                    (
+                        dist/
+                        pinchStartDistance
+                    ),
+                    .78,
+                    1.5
+                );
+
+            e.preventDefault();
+
+            return;
+        }
+
+        if(
+            touchMode==="drag"&&
+            e.touches.length===1
+        ){
+            const t=e.touches[0];
+
+            const dx=
+                t.clientX-
+                touchStartX;
+
+            camara.rotacion=
+                touchRotStart+
+                dx*.01;
+
+            e.preventDefault();
+        }
+    },
+    {
+        passive:false
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "touchend",
+    e=>{
+        if(e.touches.length>=2){
+            const t1=e.touches[0];
+            const t2=e.touches[1];
+
+            touchMode="pinch";
+
+            pinchStartDistance=
+                distanciaTouches(
+                    t1,
+                    t2
+                );
+
+            pinchStartZoom=
+                camara.zoom;
+
+            return;
+        }
+
+        if(e.touches.length===1){
+            const t=e.touches[0];
+
+            touchMode="drag";
+            touchStartX=t.clientX;
+            touchRotStart=camara.rotacion;
+
+            return;
+        }
+
+        touchMode="";
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "touchcancel",
+    ()=>{
+        touchMode="";
+    }
+);
+
+window.addEventListener(
+    "wheel",
+    e=>{
+        if(!modoGalaxia||movil)return;
+
+        e.preventDefault();
+
+        camara.zoom=
+            limitar(
+                camara.zoom-
+                e.deltaY*.0007,
+                .7,
+                1.75
+            );
+    },
+    {
+        passive:false
+    }
+);
+
+galaxiaInteractiva.addEventListener(
+    "click",
+    e=>{
+        if(!modoGalaxia)return;
+
+        if(
+            e.target.closest(
+                ".flor-orbita,.tarjeta,#centroVisual"
+            )
+        )return;
+
+        crearExplosion(
+            e.clientX,
+            e.clientY
+        );
+    }
+);
+
+window.addEventListener(
+    "keydown",
+    e=>{
+        if(e.key==="Escape"){
+            cerrarTarjetaFn();
+        }
+    }
+);
+
+window.addEventListener(
+    "resize",
+    ajustarCanvas
+);
+
+window.visualViewport?.addEventListener(
+    "resize",
+    ajustarCanvas
+);
+
+detectarMovil();
+ajustarCanvas();
+requestAnimationFrame(animar);
