@@ -1,130 +1,131 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#030309">
-<title>21 de Septiembre 💛</title>
-<link rel="stylesheet" href="estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+    <meta name="theme-color" content="#030309">
+    <title>21 de Septiembre 💛</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-<canvas id="espacio"></canvas>
+    <canvas id="espacio"></canvas>
 
-<div class="brillo brillo-1"></div>
-<div class="brillo brillo-2"></div>
-<div class="brillo brillo-3"></div>
+    <div class="brillo brillo-1"></div>
+    <div class="brillo brillo-2"></div>
+    <div class="brillo brillo-3"></div>
 
-<section id="inicio" class="inicio">
-    <div class="inicio-contenido">
-        <span class="mini-corazon">💛</span>
-        <p>Hay algo que quiero mostrarte</p>
-        <h1>Para ti</h1>
-        <button id="btnComenzar">Descubrir ✨</button>
-    </div>
-</section>
-
-<section class="experiencia">
-    <div id="escenaFecha" class="escena">
-        <p class="texto-pequeno">Un pequeño detalle para este</p>
-        <div class="numero-21">21</div>
-        <div class="septiembre">SEPTIEMBRE</div>
-        <div class="corazon-fecha">💛</div>
-    </div>
-
-    <div id="escenaMensaje" class="escena">
-        <h2 class="mensaje-principal">
-            Hoy no quería darte
-            <span>solo flores amarillas</span>
-        </h2>
-        <div class="flor-presentacion">🌻</div>
-    </div>
-</section>
-
-<section id="entrada3d" class="entrada-3d">
-    <div id="mundo3d" class="mundo-3d"></div>
-    <div class="tunel-luz"></div>
-    <div id="mensajeFinal3d" class="mensaje-final-3d">
-        <span>Entra a esta pequeña dimensión</span>
-        <strong>hecha con flores para ti 💛</strong>
-    </div>
-</section>
-
-<section id="galaxiaInteractiva" class="galaxia-interactiva">
-    <div class="titulo-galaxia">21 DE SEPTIEMBRE 💛</div>
-
-    <div id="textoCorazon" class="texto-corazon">
-        <strong>Te amo</strong>
-        <span>desliza para recorrer esta dimensión de flores</span>
-    </div>
-
-    <div id="orbitas" class="mundo-flores"></div>
-    <div id="frasesDimension" class="frases-dimension"></div>
-</section>
-
-<div class="configuracion-intro">
-    <div class="dato-intro" data-src="img/entrada1.png" data-emoji="🌻"></div>
-    <div class="dato-intro" data-src="img/entrada2.png" data-emoji="🌼"></div>
-    <div class="dato-intro" data-src="img/entrada3.png" data-emoji="💐"></div>
-    <div class="dato-intro" data-src="img/entrada4.png" data-emoji="🌻"></div>
-    <div class="dato-intro" data-src="img/entrada5.png" data-emoji="🌷"></div>
-    <div class="dato-intro" data-src="img/entrada6.png" data-emoji="🌼"></div>
-</div>
-
-<div class="configuracion">
-    <div class="dato-flor" data-titulo="Para ti" data-etiqueta="Para ti" data-emoji="🌻" data-frase="Porque hasta el detalle más pequeño se vuelve especial cuando pienso en ti.">
-        <img class="imagen-flor" src="img/flor1.png" alt="Flores para ti">
-        <img class="imagen-tarjeta" src="img/flor1.png" alt="Flores para ti">
-    </div>
-
-    <div class="dato-flor" data-titulo="Contigo" data-etiqueta="Contigo" data-emoji="🌼" data-frase="Contigo incluso los momentos más simples se sienten diferentes.">
-        <img class="imagen-flor" src="img/flor2.png" alt="Flores contigo">
-        <img class="imagen-tarjeta" src="img/flor2.png" alt="Flores contigo">
-    </div>
-
-    <div class="dato-flor" data-titulo="Siempre tú" data-etiqueta="Siempre tú" data-emoji="🌻" data-frase="Si tuviera que elegir otra vez, volvería a coincidir contigo.">
-        <img class="imagen-flor" src="img/flor3.png" alt="Flores siempre tú">
-        <img class="imagen-tarjeta" src="img/flor3.png" alt="Flores siempre tú">
-    </div>
-
-    <div class="dato-flor" data-titulo="Mi todo" data-etiqueta="Mi todo" data-emoji="💐" data-frase="Gracias por existir y por hacer más bonitos mis días.">
-        <img class="imagen-flor" src="img/flor4.png" alt="Flores mi todo">
-        <img class="imagen-tarjeta" src="img/flor4.png" alt="Flores mi todo">
-    </div>
-
-    <div class="dato-flor" data-titulo="Eres única" data-etiqueta="Eres única" data-emoji="🌼" data-frase="Entre tantas coincidencias, me alegra muchísimo haberte encontrado.">
-        <img class="imagen-flor" src="img/flor5.png" alt="Flores eres única">
-        <img class="imagen-tarjeta" src="img/flor5.png" alt="Flores eres única">
-    </div>
-
-    <div class="dato-flor" data-titulo="Te amo" data-etiqueta="Te amo" data-emoji="🌻" data-frase="Hay sentimientos que no caben en una sola frase, pero este detalle intenta decir un poquito de ellos.">
-        <img class="imagen-flor" src="img/flor6.png" alt="Flores te amo">
-        <img class="imagen-tarjeta" src="img/flor6.png" alt="Flores te amo">
-    </div>
-
-    <div class="dato-flor" data-titulo="Mi amor" data-etiqueta="Mi amor" data-emoji="🌷" data-frase="Quiero guardar muchos momentos bonitos a tu lado.">
-        <img class="imagen-flor" src="img/flor7.png" alt="Flores mi amor">
-        <img class="imagen-tarjeta" src="img/flor7.png" alt="Flores mi amor">
-    </div>
-</div>
-
-<div id="tarjetaOverlay" class="tarjeta-overlay">
-    <article class="tarjeta">
-        <button id="cerrarTarjeta" class="cerrar-tarjeta">×</button>
-        <div class="tarjeta-visual">
-            <img id="tarjetaImagen" alt="">
-            <div id="tarjetaEmoji" class="emoji-grande">💛</div>
+    <section id="inicio" class="inicio">
+        <div class="inicio-contenido">
+            <span class="mini-corazon">💛</span>
+            <p>Hay algo que quiero mostrarte</p>
+            <h1>Para ti</h1>
+            <button id="btnComenzar">Descubrir ✨</button>
         </div>
-        <p class="tarjeta-superior">PARA TI 💛</p>
-        <h3 id="tarjetaTitulo"></h3>
-        <p id="tarjetaFrase"></p>
-        <div class="tarjeta-corazon">💛</div>
-    </article>
-</div>
+    </section>
 
-<audio id="musicaFondo" loop preload="auto">
-    <source src="audio/musica.mp3" type="audio/mpeg">
-</audio>
+    <section class="experiencia">
+        <div id="escenaFecha" class="escena">
+            <p class="texto-pequeno">Un pequeño detalle para este</p>
+            <div class="numero-21">21</div>
+            <div class="septiembre">SEPTIEMBRE</div>
+            <div class="corazon-fecha">💛</div>
+        </div>
 
-<script src="script.js"></script>
+        <div id="escenaMensaje" class="escena">
+            <h2 class="mensaje-principal">
+                Hoy no quería darte
+                <span>solo flores amarillas</span>
+            </h2>
+            <div class="flor-presentacion">🌻</div>
+        </div>
+    </section>
+
+    <section id="entrada3d" class="entrada-3d">
+        <div id="mundo3d" class="mundo-3d"></div>
+        <div class="tunel-luz"></div>
+        <div class="halo-intro halo-intro-1"></div>
+        <div class="halo-intro halo-intro-2"></div>
+        <div id="mensajeFinal3d" class="mensaje-final-3d">
+            <span>Entra a esta dimensión de flores</span>
+            <strong>hecha para ti 💛</strong>
+        </div>
+    </section>
+
+    <section id="galaxiaInteractiva" class="galaxia-interactiva">
+        <div id="nucleoDecorativo" class="nucleo-decorativo">
+            <span class="destello destello-1"></span>
+            <span class="destello destello-2"></span>
+            <span class="destello destello-3"></span>
+        </div>
+
+        <div id="mundoFlores" class="mundo-flores"></div>
+        <div id="frasesDimension" class="frases-dimension"></div>
+    </section>
+
+    <div class="configuracion-intro">
+        <div class="dato-intro" data-src="img/entrada1.png" data-emoji="🌻"></div>
+        <div class="dato-intro" data-src="img/entrada2.png" data-emoji="🌼"></div>
+        <div class="dato-intro" data-src="img/entrada3.png" data-emoji="💐"></div>
+        <div class="dato-intro" data-src="img/entrada4.png" data-emoji="🌻"></div>
+        <div class="dato-intro" data-src="img/entrada5.png" data-emoji="🌷"></div>
+        <div class="dato-intro" data-src="img/entrada6.png" data-emoji="🌼"></div>
+    </div>
+
+    <div class="configuracion">
+        <div class="dato-flor" data-titulo="Para ti" data-etiqueta="Para ti" data-emoji="🌻" data-frase="Porque hasta el detalle más pequeño se vuelve especial cuando pienso en ti.">
+            <img class="imagen-flor" src="img/flor1.png" alt="Flores para ti">
+            <img class="imagen-tarjeta" src="img/flor1.png" alt="Flores para ti">
+        </div>
+
+        <div class="dato-flor" data-titulo="Contigo" data-etiqueta="Contigo" data-emoji="🌼" data-frase="Contigo incluso los momentos más simples se sienten diferentes.">
+            <img class="imagen-flor" src="img/flor2.png" alt="Flores contigo">
+            <img class="imagen-tarjeta" src="img/flor2.png" alt="Flores contigo">
+        </div>
+
+        <div class="dato-flor" data-titulo="Siempre tú" data-etiqueta="Siempre tú" data-emoji="🌻" data-frase="Si tuviera que elegir otra vez, volvería a coincidir contigo.">
+            <img class="imagen-flor" src="img/flor3.png" alt="Flores siempre tú">
+            <img class="imagen-tarjeta" src="img/flor3.png" alt="Flores siempre tú">
+        </div>
+
+        <div class="dato-flor" data-titulo="Mi todo" data-etiqueta="Mi todo" data-emoji="💐" data-frase="Gracias por existir y por hacer más bonitos mis días.">
+            <img class="imagen-flor" src="img/flor4.png" alt="Flores mi todo">
+            <img class="imagen-tarjeta" src="img/flor4.png" alt="Flores mi todo">
+        </div>
+
+        <div class="dato-flor" data-titulo="Eres única" data-etiqueta="Eres única" data-emoji="🌼" data-frase="Entre tantas coincidencias, me alegra muchísimo haberte encontrado.">
+            <img class="imagen-flor" src="img/flor5.png" alt="Flores eres única">
+            <img class="imagen-tarjeta" src="img/flor5.png" alt="Flores eres única">
+        </div>
+
+        <div class="dato-flor" data-titulo="Te amo" data-etiqueta="Te amo" data-emoji="🌻" data-frase="Hay sentimientos que no caben en una sola frase, pero este detalle intenta decir un poquito de ellos.">
+            <img class="imagen-flor" src="img/flor6.png" alt="Flores te amo">
+            <img class="imagen-tarjeta" src="img/flor6.png" alt="Flores te amo">
+        </div>
+
+        <div class="dato-flor" data-titulo="Mi amor" data-etiqueta="Mi amor" data-emoji="🌷" data-frase="Quiero guardar muchos momentos bonitos a tu lado.">
+            <img class="imagen-flor" src="img/flor7.png" alt="Flores mi amor">
+            <img class="imagen-tarjeta" src="img/flor7.png" alt="Flores mi amor">
+        </div>
+    </div>
+
+    <div id="tarjetaOverlay" class="tarjeta-overlay">
+        <article class="tarjeta">
+            <button id="cerrarTarjeta" class="cerrar-tarjeta">×</button>
+            <div class="tarjeta-visual">
+                <img id="tarjetaImagen" alt="">
+                <div id="tarjetaEmoji" class="emoji-grande">💛</div>
+            </div>
+            <p class="tarjeta-superior">PARA TI 💛</p>
+            <h3 id="tarjetaTitulo"></h3>
+            <p id="tarjetaFrase"></p>
+            <div class="tarjeta-corazon">💛</div>
+        </article>
+    </div>
+
+    <audio id="musicaFondo" loop preload="auto">
+        <source src="audio/musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
