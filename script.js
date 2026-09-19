@@ -1075,7 +1075,7 @@ function animar(ahora){
             fpsAltoSeguidos = 0;
         }
 
-        if(!calidadReducida && fpsBajoSeguidos >= 2){
+        if(!calidadReducida && fpsBajoSeguidos >= 2 && !intro3dActiva){
             calidadReducida = true;
             document.body.classList.add("calidad-reducida");
             fpsBajoSeguidos = 0;

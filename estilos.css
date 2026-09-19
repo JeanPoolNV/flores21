@@ -848,3 +848,18 @@ body.arrastrando{
         transform: translateY(-3px) scale(1.04);
     }
 }
+
+
+.entrada-3d,
+.mundo-3d,
+.item-3d,
+.item-3d.frase,
+.item-3d.flor img{
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.item-3d.frase{
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
