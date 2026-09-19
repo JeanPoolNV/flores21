@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-
 <canvas id="espacio"></canvas>
 
 <div class="brillo brillo-1"></div>
 <div class="brillo brillo-2"></div>
+<div class="brillo brillo-3"></div>
 
 <section id="inicio" class="inicio">
     <div class="inicio-contenido">
@@ -44,8 +44,8 @@
     <div id="mundo3d" class="mundo-3d"></div>
     <div class="tunel-luz"></div>
     <div id="mensajeFinal3d" class="mensaje-final-3d">
-        <span>Todo este pequeño universo</span>
-        <strong>es para ti 💛</strong>
+        <span>Entra a esta pequeña dimensión</span>
+        <strong>hecha con flores para ti 💛</strong>
     </div>
 </section>
 
@@ -54,17 +54,11 @@
 
     <div id="textoCorazon" class="texto-corazon">
         <strong>Te amo</strong>
-        <span>más de lo que imaginas</span>
+        <span>desliza para recorrer esta dimensión de flores</span>
     </div>
 
-    <div id="orbitas" class="orbitas"></div>
-
-    <div id="centroVisual" class="centro-visual">
-        <img id="imagenCentroVisible" src="img/centro.png" alt="Ramo principal">
-        <span class="toque-centro">✦</span>
-    </div>
-
-    <div id="textoCentro" class="texto-centro">Siempre juntos ✨</div>
+    <div id="orbitas" class="mundo-flores"></div>
+    <div id="frasesDimension" class="frases-dimension"></div>
 </section>
 
 <div class="configuracion-intro">
@@ -77,65 +71,37 @@
 </div>
 
 <div class="configuracion">
-    <div class="dato-flor"
-        data-titulo="Para ti"
-        data-etiqueta="Para ti"
-        data-emoji="🌻"
-        data-frase="Porque hasta el detalle más pequeño se vuelve especial cuando pienso en ti.">
+    <div class="dato-flor" data-titulo="Para ti" data-etiqueta="Para ti" data-emoji="🌻" data-frase="Porque hasta el detalle más pequeño se vuelve especial cuando pienso en ti.">
         <img class="imagen-flor" src="img/flor1.png" alt="Flores para ti">
         <img class="imagen-tarjeta" src="img/flor1.png" alt="Flores para ti">
     </div>
 
-    <div class="dato-flor"
-        data-titulo="Contigo"
-        data-etiqueta="Contigo"
-        data-emoji="🌼"
-        data-frase="Contigo incluso los momentos más simples se sienten diferentes.">
+    <div class="dato-flor" data-titulo="Contigo" data-etiqueta="Contigo" data-emoji="🌼" data-frase="Contigo incluso los momentos más simples se sienten diferentes.">
         <img class="imagen-flor" src="img/flor2.png" alt="Flores contigo">
         <img class="imagen-tarjeta" src="img/flor2.png" alt="Flores contigo">
     </div>
 
-    <div class="dato-flor"
-        data-titulo="Siempre tú"
-        data-etiqueta="Siempre tú"
-        data-emoji="🌻"
-        data-frase="Si tuviera que elegir otra vez, volvería a coincidir contigo.">
+    <div class="dato-flor" data-titulo="Siempre tú" data-etiqueta="Siempre tú" data-emoji="🌻" data-frase="Si tuviera que elegir otra vez, volvería a coincidir contigo.">
         <img class="imagen-flor" src="img/flor3.png" alt="Flores siempre tú">
         <img class="imagen-tarjeta" src="img/flor3.png" alt="Flores siempre tú">
     </div>
 
-    <div class="dato-flor"
-        data-titulo="Mi todo"
-        data-etiqueta="Mi todo"
-        data-emoji="💐"
-        data-frase="Gracias por existir y por hacer más bonitos mis días.">
+    <div class="dato-flor" data-titulo="Mi todo" data-etiqueta="Mi todo" data-emoji="💐" data-frase="Gracias por existir y por hacer más bonitos mis días.">
         <img class="imagen-flor" src="img/flor4.png" alt="Flores mi todo">
         <img class="imagen-tarjeta" src="img/flor4.png" alt="Flores mi todo">
     </div>
 
-    <div class="dato-flor"
-        data-titulo="Eres única"
-        data-etiqueta="Eres única"
-        data-emoji="🌼"
-        data-frase="Entre tantas coincidencias, me alegra muchísimo haberte encontrado.">
+    <div class="dato-flor" data-titulo="Eres única" data-etiqueta="Eres única" data-emoji="🌼" data-frase="Entre tantas coincidencias, me alegra muchísimo haberte encontrado.">
         <img class="imagen-flor" src="img/flor5.png" alt="Flores eres única">
         <img class="imagen-tarjeta" src="img/flor5.png" alt="Flores eres única">
     </div>
 
-    <div class="dato-flor"
-        data-titulo="Te amo"
-        data-etiqueta="Te amo"
-        data-emoji="🌻"
-        data-frase="Hay sentimientos que no caben en una sola frase, pero este detalle intenta decir un poquito de ellos.">
+    <div class="dato-flor" data-titulo="Te amo" data-etiqueta="Te amo" data-emoji="🌻" data-frase="Hay sentimientos que no caben en una sola frase, pero este detalle intenta decir un poquito de ellos.">
         <img class="imagen-flor" src="img/flor6.png" alt="Flores te amo">
         <img class="imagen-tarjeta" src="img/flor6.png" alt="Flores te amo">
     </div>
 
-    <div class="dato-flor"
-        data-titulo="Mi amor"
-        data-etiqueta="Mi amor"
-        data-emoji="🌷"
-        data-frase="Quiero guardar muchos momentos bonitos a tu lado.">
+    <div class="dato-flor" data-titulo="Mi amor" data-etiqueta="Mi amor" data-emoji="🌷" data-frase="Quiero guardar muchos momentos bonitos a tu lado.">
         <img class="imagen-flor" src="img/flor7.png" alt="Flores mi amor">
         <img class="imagen-tarjeta" src="img/flor7.png" alt="Flores mi amor">
     </div>
