@@ -596,12 +596,28 @@ button{
 .flor-contenedor::before{
     content:"";
     position:absolute;
-    width:78%;
-    height:78%;
-    border-radius:50%;
-    background:radial-gradient(circle,rgba(255,235,150,.68),rgba(255,215,0,.22) 48%,transparent 78%);
-    filter:blur(11px);
+    width:90%;
+    height:70%;
+    border-radius:45%;
+    background:radial-gradient(ellipse,rgba(255,235,150,.5),rgba(255,215,0,.13) 48%,transparent 78%);
+    filter:blur(15px);
+    transform:scaleX(1.3);
+    transition:.3s;
 }
+
+.flor-orbita{
+    transform-origin:center;
+    backface-visibility:hidden;
+}
+
+.flor-orbita.atras{
+    filter:brightness(.62) saturate(.82);
+}
+
+.flor-orbita.frente{
+    filter:brightness(1.18) saturate(1.12);
+}
+
 
 .flor-orbita:hover .flor-contenedor{
     transform:scale(1.15);
