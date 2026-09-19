@@ -147,7 +147,7 @@ button{
     opacity: 0;
     visibility: hidden;
     transform: scale(0.93);
-    transition: opacity 1.15s ease, transform 1.15s ease, visibility 1.15s;
+    transition: opacity 1.65s ease, transform 1.65s ease, visibility 1.65s;
 }
 
 .escena.activa{
@@ -215,7 +215,7 @@ button{
         radial-gradient(circle at 15% 22%, rgba(76, 70, 195, 0.08), transparent 30%),
         radial-gradient(circle at 84% 78%, rgba(255, 185, 20, 0.06), transparent 34%),
         #020207;
-    transition: opacity 0.7s ease, visibility 0.7s ease;
+    transition: opacity 2.2s ease, visibility 2.2s ease;
 }
 
 .entrada-3d.activa{
@@ -241,9 +241,9 @@ button{
 }
 
 .mundo-3d.suave{
-    opacity: 0.48;
-    transform: scale(1.015);
-    filter: blur(0.7px) brightness(0.82);
+    opacity: 0.82;
+    transform: scale(1.01);
+    filter: blur(0.35px) brightness(0.92);
 }
 
 .item-3d{
@@ -259,8 +259,9 @@ button{
 .item-3d.frase{
     padding: 3px 8px;
     color: #fff6d2;
-    font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-weight: 600;
+    font-style: italic;
     white-space: nowrap;
     letter-spacing: 0.4px;
     text-shadow: 0 0 9px rgba(255, 235, 155, 0.84), 0 0 26px rgba(255, 195, 0, 0.28), 0 4px 14px rgba(0, 0, 0, 0.98);
@@ -269,11 +270,13 @@ button{
 .item-3d.frase.frase-media{
     color: #fff8de;
     font-weight: 650;
+    font-style: italic;
 }
 
 .item-3d.frase.frase-grande{
     color: #fff5c4;
     font-weight: 700;
+    font-style: italic;
     letter-spacing: 0.7px;
     text-shadow: 0 0 10px rgba(255, 239, 175, 0.9), 0 0 34px rgba(255, 210, 20, 0.35), 0 8px 16px rgba(0, 0, 0, 0.95);
 }
@@ -289,7 +292,7 @@ button{
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 0 12px rgba(255, 238, 165, 0.82)) drop-shadow(0 0 34px rgba(255, 200, 20, 0.38));
+    filter: drop-shadow(0 0 8px rgba(255, 244, 190, 0.9)) drop-shadow(0 0 24px rgba(255, 201, 30, 0.42));
 }
 
 .flor-emoji-3d{
@@ -362,7 +365,7 @@ button{
 
 .mensaje-final-3d.activo{
     visibility: visible;
-    animation: mensajeFinal3d 5.8s ease forwards;
+    animation: mensajeFinal3d 6.4s ease forwards;
 }
 
 .mensaje-final-3d span{
@@ -394,7 +397,7 @@ button{
     overscroll-behavior: none;
     user-select: none;
     -webkit-user-select: none;
-    transition: opacity 1.8s ease, visibility 1.8s ease;
+    transition: opacity 2.6s ease, visibility 2.6s ease;
 }
 
 .galaxia-interactiva.activa{
@@ -476,6 +479,8 @@ button{
     transform-origin: center;
     backface-visibility: hidden;
     -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    overflow: visible;
 }
 
 .dimension-flor:hover .flor-contenedor{
@@ -492,32 +497,6 @@ button{
     transition: transform 0.25s ease;
 }
 
-.flor-contenedor::before{
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 132%;
-    height: 92%;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(ellipse, rgba(255, 246, 190, 0.62), rgba(255, 210, 0, 0.18) 42%, transparent 74%);
-    filter: blur(14px);
-}
-
-.flor-contenedor::after{
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 36%;
-    height: 36%;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(255, 255, 220, 0.65), transparent 72%);
-    filter: blur(10px);
-    opacity: 0.75;
-}
 
 .flor-imagen{
     position: relative;
@@ -526,7 +505,7 @@ button{
     max-width: 84px;
     max-height: 84px;
     object-fit: contain;
-    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 12px rgba(255, 225, 110, 0.66)) drop-shadow(0 0 32px rgba(255, 205, 0, 0.33));
+    filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 7px rgba(255, 238, 165, 0.75)) drop-shadow(0 0 18px rgba(255, 205, 0, 0.38));
 }
 
 .flor-emoji{
