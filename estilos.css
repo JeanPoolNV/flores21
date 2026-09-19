@@ -190,6 +190,7 @@ button{
     animation:flotar 3s ease-in-out infinite;
     filter:drop-shadow(0 0 20px rgba(255,210,0,.4));
 }
+
 .entrada-3d{
     position:fixed;
     inset:0;
@@ -198,13 +199,12 @@ button{
     opacity:0;
     visibility:hidden;
     pointer-events:none;
-    perspective:900px;
+    perspective:950px;
     background:
-        radial-gradient(circle at 50% 52%,rgba(255,218,70,.12),transparent 20%),
-        radial-gradient(circle at 25% 28%,rgba(70,80,180,.07),transparent 32%),
-        radial-gradient(circle at 78% 72%,rgba(255,170,30,.06),transparent 35%),
-        rgba(0,0,5,.12);
-    transition:opacity .7s ease,visibility .7s ease;
+        radial-gradient(circle at 50% 52%,rgba(255,222,80,.13),transparent 18%),
+        radial-gradient(circle at 50% 52%,rgba(255,190,20,.05),transparent 42%),
+        rgba(0,0,5,.13);
+    transition:opacity .8s ease,visibility .8s ease;
 }
 
 .entrada-3d.activa{
@@ -220,14 +220,14 @@ button{
     position:absolute;
     inset:0;
     transform-style:preserve-3d;
-    perspective-origin:50% 50%;
-    transition:opacity 1.2s ease,transform 1.2s ease,filter 1.2s ease;
+    perspective-origin:50% 52%;
+    transition:opacity 1s ease,transform 1s ease,filter 1s ease;
 }
 
 .mundo-3d.apagando{
     opacity:0;
-    transform:scale(1.08);
-    filter:blur(3px);
+    transform:scale(1.1);
+    filter:blur(4px);
 }
 
 .item-3d{
@@ -241,14 +241,14 @@ button{
 }
 
 .item-3d.frase{
-    color:#fff8d1;
+    color:#fff9d7;
     font-weight:600;
     white-space:nowrap;
-    letter-spacing:.4px;
+    letter-spacing:.3px;
     text-shadow:
-        0 0 8px rgba(255,235,150,.68),
-        0 0 22px rgba(255,195,0,.28),
-        0 4px 12px rgba(0,0,0,.95);
+        0 0 7px rgba(255,235,150,.65),
+        0 0 20px rgba(255,200,20,.25),
+        0 4px 10px rgba(0,0,0,.95);
 }
 
 .item-3d.flor{
@@ -263,8 +263,8 @@ button{
     height:100%;
     object-fit:contain;
     filter:
-        drop-shadow(0 0 12px rgba(255,230,130,.7))
-        drop-shadow(0 0 32px rgba(255,195,0,.32));
+        drop-shadow(0 0 10px rgba(255,235,150,.7))
+        drop-shadow(0 0 27px rgba(255,200,20,.32));
 }
 
 .flor-emoji-3d{
@@ -274,93 +274,21 @@ button{
     width:100%;
     height:100%;
     font-size:55px;
-    filter:drop-shadow(0 0 14px rgba(255,220,80,.55));
+    filter:drop-shadow(0 0 13px rgba(255,220,70,.55));
 }
 
 .tunel-luz{
     position:absolute;
     left:50%;
     top:52%;
-    width:min(72vw,650px);
+    width:min(78vw,700px);
     aspect-ratio:1;
     transform:translate(-50%,-50%);
     border-radius:50%;
     pointer-events:none;
-    background:radial-gradient(circle,rgba(255,235,140,.15),rgba(255,205,30,.05) 30%,transparent 67%);
-    filter:blur(20px);
-    animation:respirarTunel 3.2s ease-in-out infinite;
-}
-
-.configuracion-intro{
-    display:none;
-}
-
-.entrada-3d.activa{
-    opacity:1;
-    visibility:visible;
-}
-
-.mundo-3d{
-    position:absolute;
-    inset:0;
-    transform-style:preserve-3d;
-    perspective-origin:50% 50%;
-}
-
-.item-3d{
-    position:absolute;
-    left:50%;
-    top:50%;
-    pointer-events:none;
-    transform-style:preserve-3d;
-    will-change:transform,opacity;
-}
-
-.item-3d.frase{
-    color:#fff8d1;
-    font-weight:600;
-    white-space:nowrap;
-    letter-spacing:.3px;
-    text-shadow:
-        0 0 7px rgba(255,230,120,.55),
-        0 0 18px rgba(255,190,0,.22),
-        0 4px 10px #000;
-}
-
-.item-3d.flor img{
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    filter:
-        drop-shadow(0 0 12px rgba(255,225,100,.6))
-        drop-shadow(0 0 25px rgba(255,195,0,.26));
-}
-
-.rayo-3d{
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:1px;
-    height:80px;
-    transform-origin:50% 0;
-    background:linear-gradient(to bottom,rgba(255,235,150,.8),rgba(255,205,0,0));
-    box-shadow:0 0 8px rgba(255,220,70,.55);
-    pointer-events:none;
-    opacity:.35;
-}
-
-.tunel-luz{
-    position:absolute;
-    left:50%;
-    top:55%;
-    width:min(65vw,700px);
-    aspect-ratio:1;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    pointer-events:none;
-    background:radial-gradient(circle,rgba(255,230,120,.17),rgba(255,205,0,.08) 23%,rgba(255,195,0,.02) 45%,transparent 70%);
-    filter:blur(9px);
+    background:
+        radial-gradient(circle,rgba(255,245,185,.17),rgba(255,215,55,.07) 22%,rgba(255,190,0,.02) 45%,transparent 70%);
+    filter:blur(19px);
     animation:respirarTunel 3s ease-in-out infinite;
 }
 
@@ -368,35 +296,36 @@ button{
     position:absolute;
     left:50%;
     top:50%;
-    transform:translate(-50%,-50%) scale(.65);
+    z-index:20;
+    width:90%;
     display:flex;
     flex-direction:column;
     align-items:center;
     gap:9px;
-    width:90%;
-    text-align:center;
+    transform:translate(-50%,-50%) scale(.6);
     opacity:0;
     visibility:hidden;
-    pointer-events:none;
-    z-index:10;
+    text-align:center;
 }
 
 .mensaje-final-3d.activo{
     visibility:visible;
-    animation:mensajeFinal3d 3s ease forwards;
+    animation:mensajeFinal3d 2.6s ease forwards;
 }
 
 .mensaje-final-3d span{
-    color:rgba(255,255,255,.8);
-    font-size:clamp(15px,2vw,22px);
+    color:rgba(255,255,245,.8);
+    font-size:clamp(14px,2vw,21px);
     letter-spacing:2px;
 }
 
 .mensaje-final-3d strong{
-    color:#ffe45c;
-    font-size:clamp(30px,5vw,60px);
+    color:#ffe66a;
+    font-size:clamp(30px,5vw,58px);
     font-weight:400;
-    text-shadow:0 0 18px rgba(255,220,70,.65),0 0 50px rgba(255,185,0,.25);
+    text-shadow:
+        0 0 18px rgba(255,220,70,.7),
+        0 0 50px rgba(255,185,0,.28);
 }
 
 .galaxia-interactiva{
@@ -408,25 +337,17 @@ button{
     overflow:hidden;
     opacity:0;
     visibility:hidden;
-    perspective:1000px;
+    perspective:1100px;
     touch-action:none;
     overscroll-behavior:none;
     user-select:none;
     -webkit-user-select:none;
-    transition:opacity 1.8s ease,visibility 1.8s ease;
+    transition:opacity 1.5s ease,visibility 1.5s ease;
 }
 
 .galaxia-interactiva.activa{
     opacity:1;
     visibility:visible;
-}
-
-.orbitas{
-    position:absolute;
-    inset:0;
-    z-index:24;
-    pointer-events:none;
-    transform-style:preserve-3d;
 }
 
 .titulo-galaxia{
@@ -484,13 +405,15 @@ button{
     inset:0;
     z-index:24;
     pointer-events:none;
+    transform-style:preserve-3d;
 }
+
 .centro-visual{
     position:absolute;
-    width:145px;
-    height:145px;
+    width:165px;
+    height:165px;
     transform:translate(-50%,-50%);
-    z-index:30;
+    z-index:40;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -502,21 +425,30 @@ button{
 .centro-visual::before{
     content:"";
     position:absolute;
-    inset:-35px;
+    inset:-45px;
     border-radius:50%;
-    background:radial-gradient(circle,rgba(255,220,35,.4),rgba(255,204,0,.14) 35%,rgba(255,190,0,0) 72%);
-    filter:blur(15px);
+    background:
+        radial-gradient(circle,
+        rgba(255,248,190,.5),
+        rgba(255,215,30,.18) 32%,
+        rgba(255,185,0,.055) 57%,
+        transparent 74%);
+    filter:blur(16px);
     animation:haloSol 3.8s ease-in-out infinite;
 }
 
 .centro-visual::after{
     content:"";
     position:absolute;
-    width:235px;
-    height:235px;
+    width:290px;
+    height:290px;
     border-radius:50%;
-    background:radial-gradient(circle,rgba(255,235,130,.08),rgba(255,210,0,0) 70%);
-    filter:blur(20px);
+    background:
+        radial-gradient(circle,
+        rgba(255,220,65,.1),
+        rgba(255,190,0,.025) 45%,
+        transparent 72%);
+    filter:blur(25px);
 }
 
 .centro-visual img{
@@ -577,6 +509,8 @@ button{
     opacity:0;
     transition:opacity .7s ease,filter .25s ease;
     will-change:transform,opacity,filter;
+    transform-origin:center;
+    backface-visibility:hidden;
 }
 
 .flor-orbita.visible{
@@ -596,28 +530,17 @@ button{
 .flor-contenedor::before{
     content:"";
     position:absolute;
-    width:90%;
+    width:110%;
     height:70%;
-    border-radius:45%;
-    background:radial-gradient(ellipse,rgba(255,235,150,.5),rgba(255,215,0,.13) 48%,transparent 78%);
+    border-radius:50%;
+    background:
+        radial-gradient(ellipse,
+        rgba(255,240,165,.52),
+        rgba(255,210,0,.13) 43%,
+        transparent 75%);
     filter:blur(15px);
     transform:scaleX(1.3);
-    transition:.3s;
 }
-
-.flor-orbita{
-    transform-origin:center;
-    backface-visibility:hidden;
-}
-
-.flor-orbita.atras{
-    filter:brightness(.62) saturate(.82);
-}
-
-.flor-orbita.frente{
-    filter:brightness(1.18) saturate(1.12);
-}
-
 
 .flor-orbita:hover .flor-contenedor{
     transform:scale(1.15);
@@ -652,7 +575,7 @@ button{
 }
 
 .flor-orbita.atras{
-    filter:brightness(.5) saturate(.78);
+    filter:brightness(.56) saturate(.82);
 }
 
 .flor-orbita.atras .flor-nombre{
@@ -660,14 +583,11 @@ button{
 }
 
 .flor-orbita.frente{
-    filter:brightness(1.18) saturate(1.12);
+    filter:brightness(1.22) saturate(1.13);
 }
 
-.flor-orbita.frente .flor-contenedor::before{
-    background:radial-gradient(circle,rgba(255,245,180,.9),rgba(255,215,0,.3) 48%,transparent 78%);
-}
-
-.configuracion{
+.configuracion,
+.configuracion-intro{
     display:none;
 }
 
@@ -781,125 +701,62 @@ button{
 body.arrastrando{
     cursor:grabbing;
 }
+
 @keyframes entradaInicio{
-    from{
-        opacity:0;
-        transform:translateY(15px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    from{opacity:0;transform:translateY(15px)}
+    to{opacity:1;transform:translateY(0)}
 }
 
 @keyframes abrirTarjeta{
-    from{
-        opacity:0;
-        transform:translateY(20px) scale(.95);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
+    from{opacity:0;transform:translateY(20px) scale(.95)}
+    to{opacity:1;transform:translateY(0) scale(1)}
 }
 
 @keyframes zoomFoto{
-    from{
-        transform:scale(1);
-    }
-    to{
-        transform:scale(1.07);
-    }
+    from{transform:scale(1)}
+    to{transform:scale(1.07)}
 }
 
 @keyframes latido{
-    0%,100%{
-        transform:scale(1);
-    }
-    50%{
-        transform:scale(1.14);
-    }
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.14)}
 }
 
 @keyframes flotar{
-    0%,100%{
-        transform:translateY(0) rotate(-3deg);
-    }
-    50%{
-        transform:translateY(-13px) rotate(3deg);
-    }
+    0%,100%{transform:translateY(0) rotate(-3deg)}
+    50%{transform:translateY(-13px) rotate(3deg)}
 }
 
 @keyframes respirarTunel{
-    0%,100%{
-        transform:translate(-50%,-50%) scale(.9);
-        opacity:.75;
-    }
-    50%{
-        transform:translate(-50%,-50%) scale(1.08);
-        opacity:1;
-    }
+    0%,100%{transform:translate(-50%,-50%) scale(.9);opacity:.75}
+    50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}
 }
 
 @keyframes mensajeFinal3d{
-    0%{
-        opacity:0;
-        transform:translate(-50%,-50%) scale(.45);
-    }
-    30%{
-        opacity:1;
-        transform:translate(-50%,-50%) scale(1);
-    }
-    72%{
-        opacity:1;
-        transform:translate(-50%,-50%) scale(1.04);
-    }
-    100%{
-        opacity:0;
-        transform:translate(-50%,-50%) scale(1.25);
-    }
+    0%{opacity:0;transform:translate(-50%,-50%) scale(.45)}
+    30%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    72%{opacity:1;transform:translate(-50%,-50%) scale(1.04)}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(1.25)}
 }
 
 @keyframes respirarRamo{
-    0%,100%{
-        transform:scale(1);
-    }
-    50%{
-        transform:scale(1.045);
-    }
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.045)}
 }
 
 @keyframes haloSol{
-    0%,100%{
-        transform:scale(1);
-        opacity:.9;
-    }
-    50%{
-        transform:scale(1.12);
-        opacity:.7;
-    }
+    0%,100%{transform:scale(1);opacity:.9}
+    50%{transform:scale(1.12);opacity:.7}
 }
 
 @keyframes explosionCentro{
-    0%,100%{
-        transform:scale(1);
-        opacity:.8;
-    }
-    50%{
-        transform:scale(1.4);
-        opacity:1;
-    }
+    0%,100%{transform:scale(1);opacity:.8}
+    50%{transform:scale(1.4);opacity:1}
 }
 
 @keyframes destello{
-    0%,100%{
-        opacity:.35;
-        transform:scale(.8) rotate(0);
-    }
-    50%{
-        opacity:1;
-        transform:scale(1.25) rotate(90deg);
-    }
+    0%,100%{opacity:.35;transform:scale(.8) rotate(0)}
+    50%{opacity:1;transform:scale(1.25) rotate(90deg)}
 }
 
 @media(max-width:700px){
@@ -918,8 +775,8 @@ body.arrastrando{
     }
 
     .centro-visual{
-        width:105px;
-        height:105px;
+        width:125px;
+        height:125px;
     }
 
     .texto-centro{
@@ -928,17 +785,17 @@ body.arrastrando{
     }
 
     .flor-contenedor{
-        width:57px;
-        height:57px;
+        width:61px;
+        height:61px;
     }
 
     .flor-imagen{
-        max-width:57px;
-        max-height:57px;
+        max-width:61px;
+        max-height:61px;
     }
 
     .flor-emoji{
-        font-size:31px;
+        font-size:33px;
     }
 
     .flor-nombre{
@@ -957,28 +814,21 @@ body.arrastrando{
         height:min(48vw,205px);
         min-height:160px;
     }
-
-    .item-3d.frase{
-        text-shadow:
-            0 0 6px rgba(255,230,120,.55),
-            0 0 12px rgba(255,190,0,.2),
-            0 3px 7px #000;
-    }
 }
 
 @media(max-width:390px){
     .centro-visual{
-        width:98px;
-        height:98px;
+        width:118px;
+        height:118px;
     }
 
     .flor-contenedor{
-        width:52px;
-        height:52px;
+        width:57px;
+        height:57px;
     }
 
     .flor-imagen{
-        max-width:52px;
-        max-height:52px;
+        max-width:57px;
+        max-height:57px;
     }
 }
