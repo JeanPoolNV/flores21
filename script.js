@@ -45,6 +45,8 @@ let introInicioTiempo = 0;
 let calidadReducida = false;
 let fpsMuestraInicio = performance.now();
 let fpsFrames = 0;
+let fpsBajoSeguidos = 0;
+let fpsAltoSeguidos = 0;
 let dimensionActiva = false;
 let arrastrandoMouse = false;
 
@@ -934,7 +936,9 @@ function actualizarCamara(dt){
     limitarObjetivoCamara();
     normalizarProfundidad();
 
-    const suavidad = 1 - Math.exp(-6.5 * dt);
+    const siguiendoDedo = touchMode === "drag" || arrastrandoMouse;
+    const velocidad = siguiendoDedo ? 18 : 8.5;
+    const suavidad = 1 - Math.exp(-velocidad * dt);
     camara.x += (camaraObjetivo.x - camara.x) * suavidad;
     camara.y += (camaraObjetivo.y - camara.y) * suavidad;
     camara.z += (camaraObjetivo.z - camara.z) * suavidad;
@@ -1059,8 +1063,30 @@ function animar(ahora){
     fpsFrames++;
     if(ahora - fpsMuestraInicio >= 2500){
         const fps = fpsFrames * 1000 / (ahora - fpsMuestraInicio);
-        calidadReducida = fps < 42;
-        document.body.classList.toggle("calidad-reducida", calidadReducida);
+
+        if(fps < 38){
+            fpsBajoSeguidos++;
+            fpsAltoSeguidos = 0;
+        }else if(fps > 50){
+            fpsAltoSeguidos++;
+            fpsBajoSeguidos = 0;
+        }else{
+            fpsBajoSeguidos = 0;
+            fpsAltoSeguidos = 0;
+        }
+
+        if(!calidadReducida && fpsBajoSeguidos >= 2){
+            calidadReducida = true;
+            document.body.classList.add("calidad-reducida");
+            fpsBajoSeguidos = 0;
+        }
+
+        if(calidadReducida && fpsAltoSeguidos >= 3 && !intro3dActiva){
+            calidadReducida = false;
+            document.body.classList.remove("calidad-reducida");
+            fpsAltoSeguidos = 0;
+        }
+
         fpsFrames = 0;
         fpsMuestraInicio = ahora;
     }
@@ -1140,9 +1166,8 @@ window.addEventListener("mousemove", e => {
     if(Math.hypot(dx, dy) > 7){
         bloquearClickHasta = performance.now() + 250;
     }
-    camaraObjetivo.x = objetivoInicioX - dx * 1.25;
-    camaraObjetivo.y = objetivoInicioY - dy * 0.82;
-    camaraObjetivo.z = objetivoInicioZ - dy * 1.15;
+    camaraObjetivo.x = objetivoInicioX - dx * 1.2;
+    camaraObjetivo.y = objetivoInicioY - dy * 1.2;
     limitarObjetivoCamara();
 });
 
@@ -1202,9 +1227,8 @@ galaxiaInteractiva.addEventListener("touchmove", e => {
         if(Math.hypot(dx, dy) > 7){
             bloquearClickHasta = performance.now() + 300;
         }
-        camaraObjetivo.x = objetivoInicioX - dx * 1.35;
-        camaraObjetivo.y = objetivoInicioY - dy * 0.86;
-        camaraObjetivo.z = objetivoInicioZ - dy * 1.35;
+        camaraObjetivo.x = objetivoInicioX - dx * 1.2;
+        camaraObjetivo.y = objetivoInicioY - dy * 1.2;
         limitarObjetivoCamara();
         e.preventDefault();
     }
