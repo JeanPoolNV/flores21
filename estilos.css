@@ -198,12 +198,101 @@ button{
     opacity:0;
     visibility:hidden;
     pointer-events:none;
-    perspective:780px;
+    perspective:900px;
     background:
-        radial-gradient(circle at 50% 55%,rgba(255,210,30,.12),transparent 23%),
-        radial-gradient(circle at 50% 55%,rgba(255,210,0,.055),transparent 50%),
-        rgba(0,0,5,.2);
-    transition:opacity 1.2s ease,visibility 1.2s;
+        radial-gradient(circle at 50% 52%,rgba(255,218,70,.12),transparent 20%),
+        radial-gradient(circle at 25% 28%,rgba(70,80,180,.07),transparent 32%),
+        radial-gradient(circle at 78% 72%,rgba(255,170,30,.06),transparent 35%),
+        rgba(0,0,5,.12);
+    transition:opacity .7s ease,visibility .7s ease;
+}
+
+.entrada-3d.activa{
+    opacity:1;
+    visibility:visible;
+}
+
+.entrada-3d.saliendo{
+    opacity:0;
+}
+
+.mundo-3d{
+    position:absolute;
+    inset:0;
+    transform-style:preserve-3d;
+    perspective-origin:50% 50%;
+    transition:opacity 1.2s ease,transform 1.2s ease,filter 1.2s ease;
+}
+
+.mundo-3d.apagando{
+    opacity:0;
+    transform:scale(1.08);
+    filter:blur(3px);
+}
+
+.item-3d{
+    position:absolute;
+    left:50%;
+    top:50%;
+    pointer-events:none;
+    transform-style:preserve-3d;
+    backface-visibility:hidden;
+    will-change:transform,opacity;
+}
+
+.item-3d.frase{
+    color:#fff8d1;
+    font-weight:600;
+    white-space:nowrap;
+    letter-spacing:.4px;
+    text-shadow:
+        0 0 8px rgba(255,235,150,.68),
+        0 0 22px rgba(255,195,0,.28),
+        0 4px 12px rgba(0,0,0,.95);
+}
+
+.item-3d.flor{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.item-3d.flor img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    filter:
+        drop-shadow(0 0 12px rgba(255,230,130,.7))
+        drop-shadow(0 0 32px rgba(255,195,0,.32));
+}
+
+.flor-emoji-3d{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+    font-size:55px;
+    filter:drop-shadow(0 0 14px rgba(255,220,80,.55));
+}
+
+.tunel-luz{
+    position:absolute;
+    left:50%;
+    top:52%;
+    width:min(72vw,650px);
+    aspect-ratio:1;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    pointer-events:none;
+    background:radial-gradient(circle,rgba(255,235,140,.15),rgba(255,205,30,.05) 30%,transparent 67%);
+    filter:blur(20px);
+    animation:respirarTunel 3.2s ease-in-out infinite;
+}
+
+.configuracion-intro{
+    display:none;
 }
 
 .entrada-3d.activa{
