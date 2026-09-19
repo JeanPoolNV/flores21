@@ -148,11 +148,11 @@ function distanciaTouches(t1, t2){
 
 function limitesCamara(){
     return movil ? {
-        x: 360,
-        y: 520
+        x: 250,
+        y: 360
     } : {
-        x: 620,
-        y: 430
+        x: 420,
+        y: 300
     };
 }
 
@@ -452,14 +452,14 @@ function obtenerImagenesIntro(){
 }
 
 function crearPosicionIntro(slot, total, z){
-    const columnas = movil ? 6 : 8;
+    const columnas = movil ? 5 : 8;
     const filas = Math.ceil(total / columnas);
     const columna = slot % columnas;
     const fila = Math.floor(slot / columnas) % filas;
     const nx = columnas === 1 ? 0 : (columna / (columnas - 1)) * 2 - 1;
     const ny = filas === 1 ? 0 : (fila / (filas - 1)) * 2 - 1;
-    const objetivoX = ancho / 2 + nx * ancho * 0.46 + aleatorio(-ancho * 0.025, ancho * 0.025);
-    const objetivoY = alto / 2 + ny * alto * 0.44 + aleatorio(-alto * 0.025, alto * 0.025);
+    const objetivoX = ancho / 2 + nx * ancho * 0.42 + aleatorio(-ancho * 0.02, ancho * 0.02);
+    const objetivoY = alto / 2 + ny * alto * 0.43 + aleatorio(-alto * 0.02, alto * 0.02);
     const focal = 760;
     const p = focal / (focal - z);
 
@@ -474,21 +474,26 @@ function crearIntro3d(){
     introObjetos = [];
 
     const imagenes = obtenerImagenesIntro();
-    const totalFrases = movil ? 104 : 154;
-    const totalFlores = movil ? 14 : 20;
+    const totalFrases = movil ? 128 : 196;
+    const totalFlores = movil ? 22 : 34;
 
     for(let i = 0; i < totalFrases; i++){
         const el = document.createElement("span");
         const frase = frasesPool[i % frasesPool.length];
-        const tipoGrande = i % 17 === 0;
-        const tipoMedio = i % 5 === 0;
+        const tipoGrande = i % 14 === 0;
+        const tipoMedio = i % 4 === 0;
         const progreso = i / Math.max(1, totalFrases - 1);
-        const z = -2420 + progreso * 2950 + aleatorio(-90, 90);
+        const z = -2640 + progreso * 3160 + aleatorio(-70, 70);
         const posicion = crearPosicionIntro(i, totalFrases, z);
 
         el.className = "item-3d frase";
+        if(tipoGrande){
+            el.classList.add("frase-grande");
+        }else if(tipoMedio){
+            el.classList.add("frase-media");
+        }
         el.textContent = frase;
-        el.style.fontSize = `${tipoGrande ? (movil ? 22 : 34) : tipoMedio ? (movil ? 15 : 21) : (movil ? 10 : 15)}px`;
+        el.style.fontSize = `${tipoGrande ? (movil ? 24 : 38) : tipoMedio ? (movil ? 16 : 24) : (movil ? 11.5 : 16)}px`;
 
         introObjetos.push({
             el,
@@ -498,8 +503,8 @@ function crearIntro3d(){
             x: posicion.x,
             y: posicion.y,
             z,
-            v: aleatorio(145, 235),
-            rot: aleatorio(-7, 7)
+            v: aleatorio(110, 178),
+            rot: aleatorio(-4, 4)
         });
 
         mundo3d.appendChild(el);
@@ -509,10 +514,10 @@ function crearIntro3d(){
         const info = imagenes[i % imagenes.length] || { src: "", emoji: "🌻" };
         const el = document.createElement("div");
         const emoji = document.createElement("span");
-        const tamano = movil ? aleatorio(46, 88) : aleatorio(62, 118);
+        const tamano = movil ? aleatorio(56, 108) : aleatorio(74, 138);
         const progreso = i / Math.max(1, totalFlores - 1);
-        const z = -2250 + progreso * 2650 + aleatorio(-120, 120);
-        const posicion = crearPosicionIntro((i * 7 + 3) % totalFrases, totalFrases, z);
+        const z = -2480 + progreso * 3000 + aleatorio(-80, 80);
+        const posicion = crearPosicionIntro((i * 5 + 3) % totalFrases, totalFrases, z);
 
         el.className = "item-3d flor";
         el.style.width = `${tamano}px`;
@@ -536,13 +541,13 @@ function crearIntro3d(){
         introObjetos.push({
             el,
             tipo: "flor",
-            slot: (i * 7 + 3) % totalFrases,
+            slot: (i * 5 + 3) % totalFrases,
             total: totalFrases,
             x: posicion.x,
             y: posicion.y,
             z,
-            v: aleatorio(150, 235),
-            rot: aleatorio(-10, 10)
+            v: aleatorio(104, 166),
+            rot: aleatorio(-8, 8)
         });
 
         mundo3d.appendChild(el);
@@ -659,11 +664,13 @@ function iniciarExperiencia(){
     prepararIntroEnSegundoPlano();
 
     setTimeout(() => mostrarEscena(escenaFecha), 650);
-    setTimeout(() => mostrarEscena(escenaMensaje), 3900);
+    setTimeout(() => mostrarEscena(escenaMensaje), 4200);
+    setTimeout(() => {
+        iniciarSecuencia3d();
+    }, 7600);
     setTimeout(() => {
         mostrarEscena(null);
-        iniciarSecuencia3d();
-    }, 7200);
+    }, 8600);
 }
 
 function iniciarSecuencia3d(){
@@ -679,33 +686,34 @@ function iniciarSecuencia3d(){
 
     setTimeout(() => {
         prepararDimensionEnSegundoPlano();
-    }, 2500);
+    }, 3200);
 
     setTimeout(() => {
         intro3dCerrando = true;
         mundo3d.classList.add("suave");
         mensajeFinal3d.classList.add("activo");
-    }, 10400);
+    }, 13800);
 
     setTimeout(() => {
         entrarDimensionFlores();
-    }, 14200);
+    }, 17600);
 
     setTimeout(() => {
         entrada3d.classList.add("saliendo");
-    }, 14500);
+    }, 18300);
 
     setTimeout(() => {
         intro3dActiva = false;
         entrada3d.classList.remove("activa", "saliendo");
         mundo3d.classList.remove("suave");
         mensajeFinal3d.classList.remove("activo");
-    }, 15400);
+    }, 19600);
 }
 
 function crearFlorVisual(data){
     const boton = document.createElement("button");
     const contenedor = document.createElement("span");
+    let inicioTap = null;
 
     boton.className = "dimension-flor";
     contenedor.className = "flor-contenedor";
@@ -725,12 +733,36 @@ function crearFlorVisual(data){
 
     boton.appendChild(contenedor);
 
-    boton.addEventListener("click", e => {
+    boton.addEventListener("pointerdown", e => {
+        inicioTap = {
+            x: e.clientX,
+            y: e.clientY,
+            t: performance.now()
+        };
         e.stopPropagation();
-        if(performance.now() < bloquearClickHasta){
+    });
+
+    boton.addEventListener("pointerup", e => {
+        e.stopPropagation();
+        if(!inicioTap){
             return;
         }
-        abrirTarjeta(data);
+
+        const recorrido = Math.hypot(e.clientX - inicioTap.x, e.clientY - inicioTap.y);
+        const duracion = performance.now() - inicioTap.t;
+        if(recorrido < 12 && duracion < 350 && performance.now() >= bloquearClickHasta){
+            abrirTarjeta(data);
+        }
+        inicioTap = null;
+    });
+
+    boton.addEventListener("pointercancel", () => {
+        inicioTap = null;
+    });
+
+    boton.addEventListener("click", e => {
+        e.preventDefault();
+        e.stopPropagation();
     });
 
     return boton;
@@ -741,32 +773,36 @@ function crearDimensionFlores(){
     floresObjetos = [];
 
     const bases = obtenerFloresBase();
-    const capas = movil ? 8 : 10;
-    const porCapa = movil ? 7 : 8;
+    const capas = movil ? 10 : 12;
+    const porCapa = movil ? 11 : 12;
     const totalFlores = capas * porCapa;
-    const limiteX = movil ? 590 : 980;
-    const limiteY = movil ? 980 : 720;
+    const limiteX = movil ? 620 : 950;
+    const limiteY = movil ? 1050 : 760;
+    const spanX = limiteX * 2.6;
+    const spanY = limiteY * 2.3;
 
     for(let i = 0; i < totalFlores; i++){
         const data = bases[i % bases.length];
         const el = crearFlorVisual(data);
         const capa = Math.floor(i / porCapa);
         const pos = i % porCapa;
-        const angulo = pos / porCapa * Math.PI * 2 + capa * 0.43;
-        const radio = pos % 3 === 0 ? aleatorio(0.18, 0.42) : aleatorio(0.5, 1);
-        const zBase = 230 + capa * ((mundoProfundidad - 420) / Math.max(1, capas - 1));
-        const size = capa < 2 ? aleatorio(1.02, 1.34) : aleatorio(0.88, 1.18);
+        const angulo = pos / porCapa * Math.PI * 2 + capa * 0.36;
+        const radio = 0.15 + (pos / Math.max(1, porCapa - 1)) * 0.95;
+        const zBase = 180 + capa * ((mundoProfundidad - 320) / Math.max(1, capas - 1));
+        const size = capa < 2 ? aleatorio(0.98, 1.24) : aleatorio(0.76, 1.06);
 
         floresObjetos.push({
             tipo: "flor",
             el,
             data,
-            x: Math.cos(angulo) * limiteX * radio + aleatorio(-90, 90),
-            y: Math.sin(angulo) * limiteY * radio + aleatorio(-120, 120),
-            z: zBase + aleatorio(-110, 110),
+            x: Math.cos(angulo) * limiteX * radio + aleatorio(-120, 120),
+            y: Math.sin(angulo) * limiteY * radio + aleatorio(-150, 150),
+            z: zBase + aleatorio(-140, 140),
             baseScale: size,
             sway: Math.random() * Math.PI * 2,
-            rot: aleatorio(-8, 8)
+            rot: aleatorio(-7, 7),
+            spanX,
+            spanY
         });
 
         mundoFlores.appendChild(el);
@@ -809,14 +845,35 @@ function actualizarCamara(dt){
     limitarObjetivoCamara();
     normalizarProfundidad();
 
-    const suavidad = 1 - Math.exp(-14 * dt);
+    const suavidad = 1 - Math.exp(-10 * dt);
     camara.x += (camaraObjetivo.x - camara.x) * suavidad;
     camara.y += (camaraObjetivo.y - camara.y) * suavidad;
     camara.z += (camaraObjetivo.z - camara.z) * suavidad;
     camara.zoom += (camaraObjetivo.zoom - camara.zoom) * suavidad;
 }
 
+function envolverObjetoEnPlano(obj){
+    if(obj.spanX){
+        while(obj.x - camara.x > obj.spanX / 2){
+            obj.x -= obj.spanX;
+        }
+        while(obj.x - camara.x < -obj.spanX / 2){
+            obj.x += obj.spanX;
+        }
+    }
+
+    if(obj.spanY){
+        while(obj.y - camara.y > obj.spanY / 2){
+            obj.y -= obj.spanY;
+        }
+        while(obj.y - camara.y < -obj.spanY / 2){
+            obj.y += obj.spanY;
+        }
+    }
+}
+
 function proyectar(obj){
+    envolverObjetoEnPlano(obj);
     let profundidad = obj.z - camara.z;
 
     while(profundidad < 65){
@@ -847,7 +904,7 @@ function renderDimension(dt){
 
     floresObjetos.forEach(obj => {
         const pro = proyectar(obj);
-        const visible = pro.profundidad > 45 && pro.profundidad < mundoProfundidad + 260 && pro.x > -260 && pro.x < ancho + 260 && pro.y > -260 && pro.y < alto + 260;
+        const visible = pro.profundidad > 45 && pro.profundidad < mundoProfundidad + 260 && pro.x > -320 && pro.x < ancho + 320 && pro.y > -320 && pro.y < alto + 320;
 
         if(!visible){
             obj.el.style.opacity = "0";
@@ -960,7 +1017,7 @@ galaxiaInteractiva.addEventListener("mousedown", e => {
         return;
     }
 
-    if(e.target.closest(".tarjeta")){
+    if(e.target.closest(".tarjeta") || e.target.closest(".dimension-flor")){
         return;
     }
 
@@ -994,6 +1051,11 @@ window.addEventListener("mouseup", () => {
 
 galaxiaInteractiva.addEventListener("touchstart", e => {
     if(!dimensionActiva){
+        return;
+    }
+
+    if(e.target.closest(".dimension-flor")){
+        touchMode = "";
         return;
     }
 
