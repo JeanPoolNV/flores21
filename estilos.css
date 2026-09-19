@@ -241,9 +241,9 @@ button{
 }
 
 .mundo-3d.suave{
-    opacity: 0.82;
-    transform: scale(1.01);
-    filter: blur(0.35px) brightness(0.92);
+    opacity: 0.9;
+    transform: scale(1.008);
+    filter: brightness(0.96);
 }
 
 .item-3d{
@@ -257,28 +257,27 @@ button{
 }
 
 .item-3d.frase{
-    padding: 3px 8px;
-    color: #fff6d2;
+    padding: 2px 8px;
+    color: #fff7db;
     font-family: Georgia, "Times New Roman", serif;
     font-weight: 600;
     font-style: italic;
     white-space: nowrap;
-    letter-spacing: 0.4px;
-    text-shadow: 0 0 9px rgba(255, 235, 155, 0.84), 0 0 26px rgba(255, 195, 0, 0.28), 0 4px 14px rgba(0, 0, 0, 0.98);
+    letter-spacing: 0.35px;
+    text-shadow: 0 0 9px rgba(255, 239, 180, 0.84), 0 0 24px rgba(255, 198, 20, 0.24), 0 3px 14px rgba(0, 0, 0, 0.98);
+    mix-blend-mode: screen;
 }
 
 .item-3d.frase.frase-media{
     color: #fff8de;
     font-weight: 650;
-    font-style: italic;
 }
 
 .item-3d.frase.frase-grande{
-    color: #fff5c4;
+    color: #fff6cf;
     font-weight: 700;
-    font-style: italic;
-    letter-spacing: 0.7px;
-    text-shadow: 0 0 10px rgba(255, 239, 175, 0.9), 0 0 34px rgba(255, 210, 20, 0.35), 0 8px 16px rgba(0, 0, 0, 0.95);
+    letter-spacing: 0.55px;
+    text-shadow: 0 0 11px rgba(255, 239, 175, 0.92), 0 0 30px rgba(255, 210, 20, 0.28), 0 6px 16px rgba(0, 0, 0, 0.96);
 }
 
 .item-3d.flor{
@@ -772,4 +771,46 @@ body.arrastrando{
         max-width: 58px;
         max-height: 58px;
     }
+}
+
+
+@media (max-width: 700px){
+    .item-3d.frase{
+        text-shadow: 0 0 7px rgba(255, 235, 155, 0.72), 0 0 18px rgba(255, 195, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.94);
+    }
+
+    .item-3d.frase.frase-grande{
+        text-shadow: 0 0 8px rgba(255, 239, 175, 0.82), 0 0 20px rgba(255, 210, 20, 0.24), 0 4px 10px rgba(0, 0, 0, 0.92);
+    }
+
+    .item-3d.flor img{
+        filter: drop-shadow(0 0 6px rgba(255, 244, 190, 0.82)) drop-shadow(0 0 14px rgba(255, 201, 30, 0.28));
+    }
+
+    .halo-intro,
+    .tunel-luz,
+    .nucleo-decorativo{
+        filter: blur(14px);
+    }
+
+    .flor-imagen{
+        filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.42)) drop-shadow(0 0 6px rgba(255, 238, 165, 0.62)) drop-shadow(0 0 12px rgba(255, 205, 0, 0.26));
+    }
+}
+
+
+.calidad-reducida .halo-intro{
+    filter: blur(16px);
+}
+
+.calidad-reducida .tunel-luz{
+    filter: blur(14px);
+}
+
+.calidad-reducida .item-3d.frase{
+    text-shadow: 0 0 6px rgba(255, 235, 155, 0.72), 0 0 15px rgba(255, 195, 0, 0.2), 0 3px 9px rgba(0, 0, 0, 0.92);
+}
+
+.calidad-reducida .item-3d.flor img{
+    filter: drop-shadow(0 0 6px rgba(255, 244, 190, 0.78)) drop-shadow(0 0 13px rgba(255, 201, 30, 0.26));
 }

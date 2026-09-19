@@ -41,6 +41,10 @@ let dimensionPreparada = false;
 let intro3dActiva = false;
 let intro3dCerrando = false;
 let introFadeInicio = 0;
+let introInicioTiempo = 0;
+let calidadReducida = false;
+let fpsMuestraInicio = performance.now();
+let fpsFrames = 0;
 let dimensionActiva = false;
 let arrastrandoMouse = false;
 
@@ -150,8 +154,8 @@ function distanciaTouches(t1, t2){
 
 function limitesCamara(){
     return movil ? {
-        x: 620,
-        y: 860
+        x: 420,
+        y: 620
     } : {
         x: 980,
         y: 660
@@ -407,10 +411,10 @@ function crearEscenaCanvas(){
     nebulas = [];
     introParticulas = [];
 
-    const totalEstrellas = movil ? 170 : 330;
-    const totalLuces = movil ? 58 : 100;
-    const totalPetalos = movil ? 28 : 54;
-    const totalIntro = movil ? 220 : 390;
+    const totalEstrellas = movil ? 120 : 300;
+    const totalLuces = movil ? 34 : 86;
+    const totalPetalos = movil ? 16 : 46;
+    const totalIntro = movil ? 120 : 300;
 
     for(let i = 0; i < totalEstrellas; i++){
         estrellas.push(new Estrella());
@@ -453,27 +457,53 @@ function obtenerImagenesIntro(){
     }));
 }
 
-function crearPosicionIntroMixta(slot, total, z, tipo){
-    const columnas = movil ? 6 : 9;
-    const filas = Math.max(8, Math.ceil(total / columnas));
-    const capacidad = columnas * filas;
-    const indice = ((slot % capacidad) + capacidad) % capacidad;
-    const columna = indice % columnas;
-    const fila = Math.floor(indice / columnas);
-    const nx = columnas === 1 ? 0 : (columna / (columnas - 1)) * 2 - 1;
-    const ny = filas === 1 ? 0 : (fila / (filas - 1)) * 2 - 1;
-    const escaladoX = tipo === "flor" ? 0.45 : 0.47;
-    const escaladoY = tipo === "flor" ? 0.46 : 0.48;
-    const staggerX = fila % 2 === 0 ? 0.035 : -0.035;
-    const staggerY = columna % 2 === 0 ? 0.015 : -0.015;
-    const objetivoX = ancho / 2 + (nx + staggerX) * ancho * escaladoX + aleatorio(-ancho * 0.018, ancho * 0.018);
-    const objetivoY = alto / 2 + (ny + staggerY) * alto * escaladoY + aleatorio(-alto * 0.018, alto * 0.018);
+function mezclarArray(lista){
+    for(let i = lista.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [lista[i], lista[j]] = [lista[j], lista[i]];
+    }
+    return lista;
+}
+
+function hashSuave(valor){
+    const s = Math.sin(valor * 127.1 + 311.7) * 43758.5453123;
+    return s - Math.floor(s);
+}
+
+function generarRanurasIntro(cantidad, capa){
+    const columnas = movil ? 4 : 5;
+    const filas = Math.max(1, Math.ceil(cantidad / columnas));
+    const margenX = ancho * (movil ? 0.08 : 0.07);
+    const margenY = alto * (movil ? 0.07 : 0.08);
+    const anchoUtil = ancho - margenX * 2;
+    const altoUtil = alto - margenY * 2;
+    const ranuras = [];
+
+    for(let fila = 0; fila < filas; fila++){
+        for(let col = 0; col < columnas; col++){
+            const baseX = margenX + ((col + 0.5) / columnas) * anchoUtil;
+            const baseY = margenY + ((fila + 0.5) / filas) * altoUtil;
+            const jitterX = (hashSuave(capa * 71 + fila * 17 + col * 13) - 0.5) * (anchoUtil / columnas) * 0.82;
+            const jitterY = (hashSuave(capa * 93 + fila * 11 + col * 29) - 0.5) * (altoUtil / filas) * 0.84;
+
+            ranuras.push({
+                x: baseX + jitterX,
+                y: baseY + jitterY
+            });
+        }
+    }
+
+    mezclarArray(ranuras);
+    return ranuras.slice(0, cantidad);
+}
+
+function crearPosicionIntroDesdePantalla(punto, z){
     const focal = 760;
     const p = focal / (focal - z);
 
     return {
-        x: (objetivoX - ancho / 2) / p,
-        y: (objetivoY - alto / 2) / p
+        x: (punto.x - ancho / 2) / p,
+        y: (punto.y - alto / 2) / p
     };
 }
 
@@ -482,88 +512,123 @@ function crearIntro3d(){
     introObjetos = [];
 
     const imagenes = obtenerImagenesIntro();
-    const totalSlots = movil ? 72 : 96;
-    const totalFlores = Math.floor(totalSlots / 2);
-    const totalFrases = totalSlots - totalFlores;
+    const capas = movil ? 9 : 10;
+    const porCapa = movil ? 22 : 22;
     let usadasFrases = 0;
     let usadasFlores = 0;
 
-    for(let slot = 0; slot < totalSlots; slot++){
-        const esFlor = slot % 2 === 1;
-        const progreso = slot / Math.max(1, totalSlots - 1);
-        const z = -3320 + progreso * 4220 + aleatorio(-115, 115);
-        const posicion = crearPosicionIntroMixta(slot, totalSlots, z, esFlor ? "flor" : "frase");
+    for(let capa = 0; capa < capas; capa++){
+        const zBase = -3520 + capa * (4120 / Math.max(1, capas - 1));
+        const velocidadCapa = aleatorio(movil ? 33 : 42, movil ? 41 : 50);
+        const ranuras = generarRanurasIntro(porCapa, capa);
+        const ordenTipos = [];
+        const floresPorCapa = Math.floor(porCapa / 2);
 
-        if(esFlor){
-            const info = imagenes[usadasFlores % Math.max(1, imagenes.length)] || { src: "", emoji: "🌻" };
-            const el = document.createElement("div");
-            const emoji = document.createElement("span");
-            const tamano = movil ? aleatorio(108, 178) : aleatorio(124, 198);
+        for(let i = 0; i < porCapa; i++){
+            ordenTipos.push(i < floresPorCapa ? "flor" : "frase");
+        }
+        mezclarArray(ordenTipos);
 
-            el.className = "item-3d flor";
-            el.style.width = `${tamano}px`;
-            el.style.height = `${tamano}px`;
+        for(let i = 0; i < porCapa; i++){
+            const tipo = ordenTipos[i];
+            const punto = ranuras[i];
+            const z = zBase + aleatorio(-120, 120);
+            const posicion = crearPosicionIntroDesdePantalla(punto, z);
+            const driftX = aleatorio(-12, 12);
+            const driftY = aleatorio(-10, 10);
+            const wobble = aleatorio(0.25, 0.55);
+            const fase = Math.random() * Math.PI * 2;
 
-            emoji.className = "flor-emoji-3d";
-            emoji.textContent = info.emoji;
-            el.appendChild(emoji);
+            if(tipo === "flor"){
+                const info = imagenes[usadasFlores % Math.max(1, imagenes.length)] || { src: "", emoji: "🌻" };
+                const el = document.createElement("div");
+                const emoji = document.createElement("span");
+                const tamano = movil ? aleatorio(82, 138) : aleatorio(96, 156);
 
-            if(info.src){
-                const img = document.createElement("img");
-                img.src = info.src;
-                img.alt = "";
-                img.onload = () => {
-                    emoji.style.display = "none";
-                };
-                img.onerror = () => img.remove();
-                el.appendChild(img);
+                el.className = "item-3d flor";
+                el.style.width = `${tamano}px`;
+                el.style.height = `${tamano}px`;
+
+                emoji.className = "flor-emoji-3d";
+                emoji.textContent = info.emoji;
+                el.appendChild(emoji);
+
+                if(info.src){
+                    const img = document.createElement("img");
+                    img.src = info.src;
+                    img.alt = "";
+                    img.onload = () => {
+                        emoji.style.display = "none";
+                    };
+                    img.onerror = () => img.remove();
+                    el.appendChild(img);
+                }
+
+                introObjetos.push({
+                    el,
+                    tipo: "flor",
+                    slot: i,
+                    ranura: punto,
+                    capa,
+                    porCapa,
+                    capas,
+                    x: posicion.x,
+                    y: posicion.y,
+                    z,
+                    v: velocidadCapa + aleatorio(-2.5, 2.5),
+                    rot: aleatorio(-8, 8),
+                    rotSwing: aleatorio(0.5, 2),
+                    waveX: driftX,
+                    waveY: driftY,
+                    waveV: wobble,
+                    fase,
+                    fadeDelay: aleatorio(0.04, 0.18),
+                    ranurasCapa: ranuras
+                });
+
+                mundo3d.appendChild(el);
+                usadasFlores++;
+            }else{
+                const el = document.createElement("span");
+                const frase = frasesPool[usadasFrases % frasesPool.length];
+                const tipoGrande = usadasFrases % 12 === 0;
+                const tipoMedio = usadasFrases % 3 === 0;
+                const fuente = tipoGrande ? (movil ? aleatorio(17, 20) : aleatorio(22, 28)) : tipoMedio ? (movil ? aleatorio(13.2, 15.5) : aleatorio(16, 19.5)) : (movil ? aleatorio(10.6, 12.3) : aleatorio(13, 15.2));
+
+                el.className = "item-3d frase";
+                if(tipoGrande){
+                    el.classList.add("frase-grande");
+                }else if(tipoMedio){
+                    el.classList.add("frase-media");
+                }
+                el.textContent = frase;
+                el.style.fontSize = `${fuente}px`;
+
+                introObjetos.push({
+                    el,
+                    tipo: "frase",
+                    slot: i,
+                    ranura: punto,
+                    capa,
+                    porCapa,
+                    capas,
+                    x: posicion.x,
+                    y: posicion.y,
+                    z,
+                    v: velocidadCapa + aleatorio(-2.5, 2.5),
+                    rot: aleatorio(-3, 3),
+                    rotSwing: aleatorio(0.15, 0.7),
+                    waveX: driftX * 0.45,
+                    waveY: driftY * 0.4,
+                    waveV: wobble * 0.8,
+                    fase,
+                    fadeDelay: aleatorio(0, 0.16),
+                    ranurasCapa: ranuras
+                });
+
+                mundo3d.appendChild(el);
+                usadasFrases++;
             }
-
-            introObjetos.push({
-                el,
-                tipo: "flor",
-                slot,
-                total: totalSlots,
-                x: posicion.x,
-                y: posicion.y,
-                z,
-                v: aleatorio(58, 78),
-                rot: aleatorio(-6, 6),
-                fadeDelay: aleatorio(0.04, 0.34)
-            });
-
-            mundo3d.appendChild(el);
-            usadasFlores++;
-        }else{
-            const el = document.createElement("span");
-            const frase = frasesPool[usadasFrases % frasesPool.length];
-            const tipoGrande = usadasFrases % 14 === 0;
-            const tipoMedio = usadasFrases % 4 === 0;
-
-            el.className = "item-3d frase";
-            if(tipoGrande){
-                el.classList.add("frase-grande");
-            }else if(tipoMedio){
-                el.classList.add("frase-media");
-            }
-            el.textContent = frase;
-            el.style.fontSize = `${tipoGrande ? (movil ? 23 : 34) : tipoMedio ? (movil ? 15 : 22) : (movil ? 11.5 : 16.5)}px`;
-
-            introObjetos.push({
-                el,
-                tipo: "frase",
-                slot,
-                total: totalSlots,
-                x: posicion.x,
-                y: posicion.y,
-                z,
-                v: aleatorio(58, 76),
-                rot: aleatorio(-3, 3),
-                fadeDelay: aleatorio(0, 0.28)
-            });
-
-            mundo3d.appendChild(el);
-            usadasFrases++;
         }
     }
 
@@ -575,39 +640,52 @@ function actualizarIntro3d(dt){
         return;
     }
 
-    introParticulas.forEach(p => {
-        p.actualizar(dt);
-        p.dibujar();
-    });
-
     const ahora = performance.now();
     const fadeTotal = introFadeInicio ? limitar((ahora - introFadeInicio) / 7600, 0, 1) : 0;
+    const factorParticulas = calidadReducida ? 0.55 : 1;
+    const limiteParticulas = Math.floor(introParticulas.length * factorParticulas);
+
+    for(let i = 0; i < limiteParticulas; i++){
+        const p = introParticulas[i];
+        p.actualizar(dt);
+        p.dibujar();
+    }
 
     introObjetos.forEach(obj => {
-        obj.z += obj.v * dt * (intro3dCerrando ? 0.75 : 1);
+        obj.z += obj.v * dt * (intro3dCerrando ? 0.68 : 1);
 
-        if(obj.z > 920){
-            obj.z = -3280 - aleatorio(0, 320);
-            obj.slot = (obj.slot + (movil ? 17 : 21)) % obj.total;
-            const posicion = crearPosicionIntroMixta(obj.slot, obj.total, obj.z, obj.tipo);
+        if(obj.z > 620){
+            obj.z = -3520 - aleatorio(140, 320);
+            obj.capa = (obj.capa + obj.capas) % obj.capas;
+            const ranura = obj.ranurasCapa[Math.floor(Math.random() * obj.ranurasCapa.length)] || { x: ancho / 2, y: alto / 2 };
+            const posicion = crearPosicionIntroDesdePantalla(ranura, obj.z);
             obj.x = posicion.x;
             obj.y = posicion.y;
         }
 
+        const zSeguro = Math.min(obj.z, 420);
         const focal = 760;
-        const p = focal / (focal - obj.z);
-        const x = ancho / 2 + obj.x * p;
-        const y = alto / 2 + obj.y * p;
-        const entrada = limitar((obj.z + 3280) / 560, 0, 1);
-        const salida = limitar((920 - obj.z) / 360, 0, 1);
+        const p = limitar(focal / (focal - zSeguro), 0.18, 2.24);
+        const moverX = Math.sin(tiempo * obj.waveV + obj.fase) * obj.waveX;
+        const moverY = Math.cos(tiempo * obj.waveV * 0.92 + obj.fase * 1.17) * obj.waveY;
+        const x = ancho / 2 + (obj.x + moverX) * p;
+        const y = alto / 2 + (obj.y + moverY) * p;
+        const entrada = limitar((obj.z + 3500) / 720, 0, 1);
+        const salida = 1 - limitar((obj.z - 300) / 260, 0, 1);
         const inicioLocal = obj.fadeDelay;
         const local = fadeTotal <= inicioLocal ? 0 : limitar((fadeTotal - inicioLocal) / Math.max(0.01, 1 - inicioLocal), 0, 1);
         const suavizado = local * local * (3 - 2 * local);
         const fade = 1 - suavizado;
         const op = entrada * salida * fade;
 
-        obj.el.style.opacity = op;
-        obj.el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${p}) rotate(${obj.rot}deg)`;
+        if(op <= 0.004){
+            obj.el.style.opacity = "0";
+            return;
+        }
+
+        obj.el.style.opacity = String(op);
+        const rotacion = obj.rot + Math.sin(tiempo * obj.waveV * 0.7 + obj.fase) * obj.rotSwing;
+        obj.el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${p}) rotate(${rotacion}deg)`;
     });
 }
 
@@ -702,6 +780,7 @@ function iniciarSecuencia3d(){
     intro3dActiva = true;
     intro3dCerrando = false;
     introFadeInicio = 0;
+    introInicioTiempo = performance.now();
     entrada3d.classList.remove("saliendo");
     entrada3d.classList.add("activa");
     mundo3d.classList.remove("apagando", "suave");
@@ -712,18 +791,21 @@ function iniciarSecuencia3d(){
 
     setTimeout(() => {
         mensajeFinal3d.classList.add("activo");
-    }, 23000);
+    }, 22800);
 
     setTimeout(() => {
         entrarDimensionFlores();
+    }, 27000);
+
+    setTimeout(() => {
         intro3dCerrando = true;
         introFadeInicio = performance.now();
         mundo3d.classList.add("suave");
-    }, 28000);
+    }, 28200);
 
     setTimeout(() => {
         entrada3d.classList.add("saliendo");
-    }, 31800);
+    }, 32200);
 
     setTimeout(() => {
         intro3dActiva = false;
@@ -731,7 +813,7 @@ function iniciarSecuencia3d(){
         mundo3d.classList.remove("suave");
         mensajeFinal3d.classList.remove("activo");
         introFadeInicio = 0;
-    }, 35600);
+    }, 36000);
 }
 
 function crearFlorVisual(data){
@@ -773,12 +855,12 @@ function crearDimensionFlores(){
     floresObjetos = [];
 
     const bases = obtenerFloresBase();
-    const capas = movil ? 10 : 12;
-    const columnas = movil ? 5 : 6;
-    const filas = movil ? 7 : 6;
+    const capas = movil ? 8 : 12;
+    const columnas = movil ? 4 : 6;
+    const filas = movil ? 5 : 6;
     const porCapa = columnas * filas;
-    const pasoX = movil ? 255 : 315;
-    const pasoY = movil ? 225 : 270;
+    const pasoX = movil ? 245 : 315;
+    const pasoY = movil ? 215 : 270;
     const spanX = columnas * pasoX;
     const spanY = filas * pasoY;
     const separacionZ = (mundoProfundidad - 280) / Math.max(1, capas - 1);
@@ -974,6 +1056,15 @@ function animar(ahora){
     ultimoFrame = ahora;
     tiempo += dt;
 
+    fpsFrames++;
+    if(ahora - fpsMuestraInicio >= 2500){
+        const fps = fpsFrames * 1000 / (ahora - fpsMuestraInicio);
+        calidadReducida = fps < 42;
+        document.body.classList.toggle("calidad-reducida", calidadReducida);
+        fpsFrames = 0;
+        fpsMuestraInicio = ahora;
+    }
+
     ctx.clearRect(0, 0, ancho, alto);
 
     nebulas.forEach(n => n.dibujar());
@@ -983,15 +1074,17 @@ function animar(ahora){
         e.dibujar();
     });
 
-    luces.forEach(l => {
-        l.actualizar(dt);
-        l.dibujar();
-    });
+    const limiteLuces = calidadReducida ? Math.floor(luces.length * 0.55) : luces.length;
+    for(let i = 0; i < limiteLuces; i++){
+        luces[i].actualizar(dt);
+        luces[i].dibujar();
+    }
 
-    petalos.forEach(p => {
-        p.actualizar(dt);
-        p.dibujar();
-    });
+    const limitePetalos = calidadReducida ? Math.floor(petalos.length * 0.55) : petalos.length;
+    for(let i = 0; i < limitePetalos; i++){
+        petalos[i].actualizar(dt);
+        petalos[i].dibujar();
+    }
 
     actualizarIntro3d(dt);
 
