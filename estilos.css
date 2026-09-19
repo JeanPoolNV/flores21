@@ -235,9 +235,9 @@ button{
 }
 
 .mundo-3d.apagando{
-    opacity: 0;
-    transform: scale(1.08);
-    filter: blur(3px);
+    opacity: 0.2;
+    transform: scale(1.035);
+    filter: blur(2px) brightness(0.7);
 }
 
 .item-3d{
@@ -331,7 +331,9 @@ button{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 9px;
+    gap: 12px;
+    max-width: 760px;
+    padding: 0 22px;
     transform: translate(-50%, -50%) scale(0.6);
     opacity: 0;
     visibility: hidden;
@@ -340,19 +342,22 @@ button{
 
 .mensaje-final-3d.activo{
     visibility: visible;
-    animation: mensajeFinal3d 2.4s ease forwards;
+    animation: mensajeFinal3d 4.6s ease forwards;
 }
 
 .mensaje-final-3d span{
     color: rgba(255, 255, 245, 0.8);
-    font-size: clamp(14px, 2vw, 21px);
+    font-size: clamp(14px, 2.1vw, 22px);
     letter-spacing: 2px;
+    line-height: 1.5;
 }
 
 .mensaje-final-3d strong{
     color: #ffe66a;
-    font-size: clamp(30px, 5vw, 58px);
+    max-width: 680px;
+    font-size: clamp(29px, 4.6vw, 55px);
     font-weight: 400;
+    line-height: 1.18;
     text-shadow: 0 0 18px rgba(255, 220, 70, 0.7), 0 0 50px rgba(255, 185, 0, 0.28);
 }
 
@@ -537,8 +542,8 @@ button{
     top: 0;
     white-space: nowrap;
     color: #fff8d4;
-    font-weight: 600;
-    letter-spacing: 0.2px;
+    font-weight: 650;
+    letter-spacing: 0.25px;
     pointer-events: none;
     will-change: transform, opacity;
     transform-origin: center;
@@ -733,19 +738,23 @@ body.arrastrando{
 @keyframes mensajeFinal3d{
     0%{
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.45);
+        transform: translate(-50%, -50%) scale(0.72);
+        filter: blur(3px);
     }
-    30%{
+    16%{
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
+        filter: blur(0);
     }
-    72%{
+    82%{
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1.04);
+        transform: translate(-50%, -50%) scale(1.02);
+        filter: blur(0);
     }
     100%{
         opacity: 0;
-        transform: translate(-50%, -50%) scale(1.18);
+        transform: translate(-50%, -50%) scale(1.12);
+        filter: blur(2px);
     }
 }
 
