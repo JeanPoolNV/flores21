@@ -408,16 +408,25 @@ button{
     overflow:hidden;
     opacity:0;
     visibility:hidden;
+    perspective:1000px;
     touch-action:none;
     overscroll-behavior:none;
     user-select:none;
     -webkit-user-select:none;
-    transition:opacity 2s ease,visibility 2s;
+    transition:opacity 1.8s ease,visibility 1.8s ease;
 }
 
 .galaxia-interactiva.activa{
     opacity:1;
     visibility:visible;
+}
+
+.orbitas{
+    position:absolute;
+    inset:0;
+    z-index:24;
+    pointer-events:none;
+    transform-style:preserve-3d;
 }
 
 .titulo-galaxia{
